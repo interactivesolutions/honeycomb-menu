@@ -5,6 +5,7 @@ namespace interactivesolutions\honeycombmenu\app\http\controllers;
 use Illuminate\Database\Eloquent\Builder;
 use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
 use interactivesolutions\honeycombmenu\app\models\HCMenu;
+use interactivesolutions\honeycombmenu\app\models\menu\HCMenuTypes;
 use interactivesolutions\honeycombmenu\app\validators\MenuValidator;
 
 class MenuController extends HCBaseController
@@ -53,44 +54,65 @@ class MenuController extends HCBaseController
     public function getAdminListHeader()
     {
         return [
-            'parent_id'    => [
+            'item_label'        => [
+                "type"  => "text",
+                "label" => trans('HCMenu::menu.title'),
+            ],
+            'parent.item_label' => [
                 "type"  => "text",
                 "label" => trans('HCMenu::menu.parent_id'),
             ],
-            'menu_type_id' => [
-                "type"  => "text",
-                "label" => trans('HCMenu::menu.menu_type_id'),
-            ],
-            'type'         => [
+            'type'              => [
                 "type"  => "text",
                 "label" => trans('HCMenu::menu.type'),
             ],
-            'dropdown'     => [
+            'menu_type.label'   => [
                 "type"  => "text",
-                "label" => trans('HCMenu::menu.dropdown'),
+                "label" => trans('pages::menu.menu_type_id'),
             ],
-            'icon'         => [
-                "type"  => "text",
-                "label" => trans('HCMenu::menu.icon'),
-            ],
-            'url'          => [
-                "type"  => "text",
-                "label" => trans('HCMenu::menu.url'),
-            ],
-            'link_text'    => [
-                "type"  => "text",
-                "label" => trans('HCMenu::menu.link_text'),
-            ],
-            'page_id'      => [
-                "type"  => "text",
-                "label" => trans('HCMenu::menu.page_id'),
-            ],
-            'sequence'     => [
-                "type"  => "text",
-                "label" => trans('HCMenu::menu.sequence'),
-            ],
-
         ];
+    }
+
+    /**
+     * Creating data query
+     *
+     * @param array $select
+     * @return mixed
+     */
+    protected function createQuery(array $select = null)
+    {
+        HCMenu::$customAppends = ['item_label', 'item_url'];
+        HCMenuTypes::$customAppends = ['label'];
+
+        $with = ['language' => function ($query) {
+            $query->select('id', 'iso_639_1');
+        }, 'parent'         => function ($query) {
+            $query->select(HCMenu::getFillableFields());
+        }, 'page.translations'   => function ($query) {
+            $query->select('id', 'record_id', 'title', 'slug');
+        }, 'menu_type'      => function ($query) {
+            $query->select('id');
+        }];
+
+        if( $select == null )
+            $select = HCMenu::getFillableFields();
+
+        $list = HCMenu::with($with)->select($select)
+            // add filters
+            ->where(function ($query) use ($select) {
+                $query = $this->getRequestParameters($query, $select);
+            });
+
+        // enabling check for deleted
+        $list = $this->checkForDeleted($list);
+
+        // add search items
+        $list = $this->search($list);
+
+        // ordering data
+        $list = $this->orderData($list, $select);
+
+        return $list;
     }
 
     /**
@@ -186,48 +208,6 @@ class MenuController extends HCBaseController
     }
 
     /**
-     * Creating data query
-     *
-     * @param array $select
-     * @return mixed
-     */
-    protected function createQuery(array $select = null)
-    {
-        $with = ['language' => function ($query) {
-            $query->select('id', 'iso_639_1');
-        }, 'parent'         => function ($query) {
-            $query->select(HCMenu::getFillableFields());
-        }
-//        , 'page'           => function ($query) {
-//            $query->select('id', 'title');
-//        }
-            ,
-         'menu_type'      => function ($query) {
-            $query->select('id');
-        }];
-
-        if( $select == null )
-            $select = HCMenu::getFillableFields();
-
-        $list = HCMenu::with($with)->select($select)
-            // add filters
-            ->where(function ($query) use ($select) {
-                $query = $this->getRequestParameters($query, $select);
-            });
-
-        // enabling check for deleted
-        $list = $this->checkForDeleted($list);
-
-        // add search items
-        $list = $this->search($list);
-
-        // ordering data
-        $list = $this->orderData($list, $select);
-
-        return $list;
-    }
-
-    /**
      * List search elements
      * @param Builder $query
      * @param string $phrase
@@ -260,20 +240,20 @@ class MenuController extends HCBaseController
         $_data = request()->all();
 
         array_set($data, 'record.language_code', array_get($_data, 'language'));
-        array_set($data, 'record.parent_id', array_get($_data, 'parent'));
+        array_set($data, 'record.parent_id', array_get($_data, 'parent', null));
         array_set($data, 'record.menu_type_id', array_get($_data, 'menu_type'));
         array_set($data, 'record.type', array_get($_data, 'type'));
         array_set($data, 'record.url', array_get($_data, 'url'));
         array_set($data, 'record.link_text', array_get($_data, 'link_text'));
-        array_set($data, 'record.page_id', array_get($_data, 'page'));
+        array_set($data, 'record.page_id', array_get($_data, 'page_translations'));
 
         array_set($data, 'record.icon', array_get($_data, 'icon'));
         array_set($data, 'record.dropdown', array_get($_data, 'dropdown', "0"));
-        array_set($data, 'record.sequence', array_get($_data, 'sequence'));
+        array_set($data, 'record.sequence', array_get($_data, 'sequence', null));
 
         array_set($data, 'menu_groups', array_get($_data, 'menu_groups', []));
 
-        return $data;
+        return makeEmptyNullable($data);
     }
 
     /**
@@ -285,10 +265,12 @@ class MenuController extends HCBaseController
     public function apiShow(string $id)
     {
         $with = ['parent',
-//            'page',
-            'menu_groups' => function ($query) {
-            $query->select('id', 'name');
-        }];
+            'page.translations' => function ($query) {
+                $query->select('id', 'record_id', 'title', 'language_code');
+            },
+            'menu_groups'       => function ($query) {
+                $query->select('id', 'name');
+            }];
 
         HCMenu::$customAppends = ['item_label'];
 
@@ -300,6 +282,13 @@ class MenuController extends HCBaseController
             ->select($select)
             ->where('id', $id)
             ->firstOrFail();
+
+        if( $record->page_id ) {
+            $record->page_translations = [
+                'id'    => $record->page_id,
+                'title' => $record->item_label,
+            ];
+        }
 
         return $record;
     }

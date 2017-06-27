@@ -46,7 +46,7 @@ class HCMenu extends HCUuidModel
         }
 
         if( $this->type == 'page' && ! is_null($this->page) )
-            return $this->page->title;
+            return get_translation_name('title', $this->language_code, $this->page->translations->toArray());
 
         return '';
     }
@@ -75,7 +75,7 @@ class HCMenu extends HCUuidModel
      */
     public function menu_type()
     {
-        return $this->belongsTo(HCMenuTypes::class, 'menu_id', 'id');
+        return $this->belongsTo(HCMenuTypes::class, 'menu_type_id', 'id');
     }
 
     /**

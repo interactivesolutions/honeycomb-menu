@@ -152,7 +152,7 @@ class MenuForm
                 ],
                 [
                     'type'            => 'dropDownList',
-                    'fieldID'         => 'page',
+                    'fieldID'         => 'page_translations',
                     'label'           => trans('HCMenu::menu.page_id'),
                     'editType'        => 0,
                     'required'        => 0,
@@ -160,7 +160,7 @@ class MenuForm
                     "search"          => [
                         "minimumInputLength"     => 1,
                         "maximumSelectionLength" => 1,
-//                        "url"                    => route('admin.api.pages.search'),
+                        "url"                    => route('admin.api.pages.options'),
                         "showNodes"              => [
                             "title",
                         ],
