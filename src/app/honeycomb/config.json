@@ -1,0 +1,40 @@
+{
+    "general": {
+        "serviceProviderNameSpace": "HCMenu"
+    },
+    "formData": {
+        "menu-types": "interactivesolutions\\honeycombmenu\\app\\forms\\MenuTypesForm"
+    },
+    "adminMenu": [
+        {
+            "route": "admin.routes.menu.types.index",
+            "translation": "HCMenu::menu_types.page_title",
+            "icon": "fa-circle-o",
+            "aclPermission": "interactivesolutions_honeycomb_menu_routes_menu_types_list",
+            "priority": 10
+        }
+    ],
+    "acl": {
+        "permissions": [
+            {
+                "name": "admin.routes.menu.types",
+                "controller": "interactivesolutions\\honeycombmenu\\app\\http\\controllers\\MenuTypesController",
+                "actions": [
+                    "interactivesolutions_honeycomb_menu_routes_menu_types_list",
+                    "interactivesolutions_honeycomb_menu_routes_menu_types_create",
+                    "interactivesolutions_honeycomb_menu_routes_menu_types_update",
+                    "interactivesolutions_honeycomb_menu_routes_menu_types_delete",
+                    "interactivesolutions_honeycomb_menu_routes_menu_types_force_delete"
+                ]
+            }
+        ],
+        "rolesActions": {
+            "project-admin": [
+                "interactivesolutions_honeycomb_menu_routes_menu_types_list",
+                "interactivesolutions_honeycomb_menu_routes_menu_types_create",
+                "interactivesolutions_honeycomb_menu_routes_menu_types_update",
+                "interactivesolutions_honeycomb_menu_routes_menu_types_delete"
+            ]
+        }
+    }
+}
