@@ -53,15 +53,15 @@ class GroupsController extends HCBaseController
     public function getAdminListHeader()
     {
         return [
-            'name'     => [
+            'name'          => [
                 "type"  => "text",
                 "label" => trans('HCMenu::menu_groups.name'),
             ],
-            'language_code'     => [
+            'language_code' => [
                 "type"  => "text",
                 "label" => trans('HCTranslations::core.language'),
             ],
-            'sequence' => [
+            'sequence'      => [
                 "type"  => "text",
                 "label" => trans('HCMenu::menu_groups.sequence'),
             ],
@@ -226,7 +226,7 @@ class GroupsController extends HCBaseController
 
         $select = HCMenuGroups::getFillableFields();
         $select[] = 'language_code as language';
-        
+
         $record = HCMenuGroups::with($with)
             ->select($select)
             ->where('id', $id)
@@ -245,5 +245,23 @@ class GroupsController extends HCBaseController
         $filters = [];
 
         return $filters;
+    }
+
+    /**
+     * Search for users
+     *
+     * @return mixed
+     */
+    public function options()
+    {
+        if( request()->has('language') ) {
+            return HCMenuGroups::select("id", "name")
+                ->where('language_code', request()->input('language'))
+                ->orderBy('sequence')
+                ->take(50)
+                ->get();
+        }
+
+        return [];
     }
 }

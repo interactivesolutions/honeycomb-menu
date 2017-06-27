@@ -10,6 +10,8 @@ Route::group(['prefix' => config('hc.admin_url'), 'middleware' => ['web', 'auth'
         Route::post('/', ['middleware' => ['acl:interactivesolutions_honeycomb_menu_routes_menu_groups_create'], 'uses' => 'menu\\GroupsController@apiStore']);
         Route::delete('/', ['middleware' => ['acl:interactivesolutions_honeycomb_menu_routes_menu_groups_delete'], 'uses' => 'menu\\GroupsController@apiDestroy']);
 
+
+        Route::get('options', ['as' => 'admin.api.routes.menu.groups.options', 'middleware' => ['acl:interactivesolutions_honeycomb_menu_routes_menu_groups_list'], 'uses' => 'menu\\GroupsController@options']);
         Route::get('list', ['as' => 'admin.api.routes.menu.groups.list', 'middleware' => ['acl:interactivesolutions_honeycomb_menu_routes_menu_groups_list'], 'uses' => 'menu\\GroupsController@apiIndex']);
         Route::post('restore', ['as' => 'admin.api.routes.menu.groups.restore', 'middleware' => ['acl:interactivesolutions_honeycomb_menu_routes_menu_groups_update'], 'uses' => 'menu\\GroupsController@apiRestore']);
         Route::post('merge', ['as' => 'api.v1.routes.menu.groups.merge', 'middleware' => ['acl:interactivesolutions_honeycomb_menu_routes_menu_groups_create', 'acl:interactivesolutions_honeycomb_menu_routes_menu_groups_delete'], 'uses' => 'menu\\GroupsController@apiMerge']);

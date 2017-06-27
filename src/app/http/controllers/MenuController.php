@@ -261,7 +261,7 @@ class MenuController extends HCBaseController
 
         array_set($data, 'record.language_code', array_get($_data, 'language'));
         array_set($data, 'record.parent_id', array_get($_data, 'parent'));
-        array_set($data, 'record.menu_id', array_get($_data, 'menu_type'));
+        array_set($data, 'record.menu_type_id', array_get($_data, 'menu_type'));
         array_set($data, 'record.type', array_get($_data, 'type'));
         array_set($data, 'record.url', array_get($_data, 'url'));
         array_set($data, 'record.link_text', array_get($_data, 'link_text'));
@@ -322,10 +322,10 @@ class MenuController extends HCBaseController
      */
     protected function forgetMenuCache($item)
     {
-//        MenuHelper::clearCache($item->menu_id, $item->language_id);
+//        MenuHelper::clearCache($item->menu_id, $item->language_code);
     }
 
-    public function pagesSearch()
+    public function options()
     {
         if( ! request()->has('q') )
             return [];
@@ -337,12 +337,12 @@ class MenuController extends HCBaseController
 
             return HCMenu::select(HCMenu::getFillableFields())
                 ->where(function ($query) {
-                    $query->where('language_id', request()->input('language'))
-                        ->where('menu_id', request()->input('menu_type'));
+                    $query->where('language_code', request()->input('language'))
+                        ->where('menu_type_id', request()->input('menu_type'));
                 })
                 ->where(function ($query) use ($parameter) {
                     $query->where('link_text', 'LIKE', '%' . $parameter . '%')
-                        ->orWhereHas('page.content', function ($query) use ($parameter) {
+                        ->orWhereHas('page.translations', function ($query) use ($parameter) {
 
                             $query->where('language_code', request()->input('language'))
                                 ->where('title', 'LIKE', '%' . $parameter . '%');
@@ -353,7 +353,7 @@ class MenuController extends HCBaseController
 
         $list = HCMenu::select("id", "link_text")
             ->orWhere('link_text', 'LIKE', '%' . $parameter . '%')
-            ->orWhereHas('page.content', function ($query) use ($parameter) {
+            ->orWhereHas('page.translations', function ($query) use ($parameter) {
 
                 $query->where('language_code', request()->input('language'))
                     ->where('title', 'LIKE', '%' . $parameter . '%');

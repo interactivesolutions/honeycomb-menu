@@ -3,7 +3,7 @@
 namespace interactivesolutions\honeycombmenu\app\forms;
 
 use interactivesolutions\honeycombmenu\app\models\HCMenu;
-use interactivesolutions\honeycombmenu\app\models\HCMenuTypes;
+use interactivesolutions\honeycombmenu\app\models\menu\HCMenuTypes;
 
 class MenuForm
 {
@@ -73,7 +73,7 @@ class MenuForm
                     'required'        => 0,
                     'requiredVisible' => 0,
                     "search"          => [
-                        "url"                    => route('admin.api.routes.menu.groups.search'),
+                        "url"                    => route('admin.api.routes.menu.groups.options'),
                         "minimumInputLength"     => 0,
                         "maximumSelectionLength" => 10,
                         "showNodes"              => [
@@ -94,11 +94,11 @@ class MenuForm
                     'required'        => 0,
                     'requiredVisible' => 0,
                     "search"          => [
-                        "url"                    => route('admin.api.routes.menu.search'),
+                        "url"                    => route('admin.api.routes.menu.options'),
                         "minimumInputLength"     => 1,
                         "maximumSelectionLength" => 1,
                         "showNodes"              => [
-                            "item_label",
+                            'item_label',
                         ],
                     ],
                     "dependencies"    => [

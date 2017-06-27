@@ -5,6 +5,8 @@ namespace interactivesolutions\honeycombmenu\app\models;
 use interactivesolutions\honeycombcore\models\HCUuidModel;
 use interactivesolutions\honeycombcore\models\traits\CustomAppends;
 use interactivesolutions\honeycomblanguages\app\models\HCLanguages;
+use interactivesolutions\honeycombmenu\app\models\menu\HCMenuGroups;
+use interactivesolutions\honeycombmenu\app\models\menu\HCMenuTypes;
 use interactivesolutions\honeycombpages\app\models\HCPages;
 
 class HCMenu extends HCUuidModel
@@ -30,7 +32,7 @@ class HCMenu extends HCUuidModel
      *
      * @var array
      */
-    protected $fillable = ['id', 'parent_id', 'menu_type_id', 'type', 'dropdown', 'icon', 'url', 'link_text', 'page_id', 'sequence'];
+    protected $fillable = ['id', 'parent_id', 'menu_type_id', 'type', 'dropdown', 'icon', 'url', 'link_text', 'page_id', 'sequence', 'language_code'];
 
     /**
      * Get label attribute
