@@ -1,8 +1,8 @@
-<?php namespace interactivesolutions\honeycombmenu\app\validators;
+<?php namespace interactivesolutions\honeycombmenu\app\validators\menu;
 
 use interactivesolutions\honeycombcore\http\controllers\HCCoreFormValidator;
 
-class MenuTypesValidator extends HCCoreFormValidator
+class TypesValidator extends HCCoreFormValidator
 {
     /**
      * Get the validation rules that apply to the request.
@@ -12,7 +12,7 @@ class MenuTypesValidator extends HCCoreFormValidator
     protected function rules()
     {
         return [
-            
+            'id' => 'required',
         ];
     }
 }

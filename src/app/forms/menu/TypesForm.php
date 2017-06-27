@@ -1,8 +1,8 @@
 <?php
 
-namespace interactivesolutions\honeycombmenu\app\forms;
+namespace interactivesolutions\honeycombmenu\app\forms\menu;
 
-class MenuTypesForm
+class TypesForm
 {
     // name of the form
     protected $formID = 'menu-types';
@@ -28,14 +28,20 @@ class MenuTypesForm
                 ],
             ],
             'structure'  => [
-                
+                [
+                    "type"            => "singleLine",
+                    "fieldID"         => "id",
+                    "label"           => trans("HCTranslations::core.id"),
+                    "required"        => 1,
+                    "requiredVisible" => 1,
+                ],
             ],
         ];
 
-        if ($this->multiLanguage)
+        if( $this->multiLanguage )
             $form['availableLanguages'] = getHCContentLanguages();
 
-        if (!$edit)
+        if( ! $edit )
             return $form;
 
         //Make changes to edit form if needed

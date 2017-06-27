@@ -1,5 +1,7 @@
 <?php
-return [
-    'page_title' => 'MenuTypes',
-    'type'       => 'Type',
-];
+    return [
+        'page_title' => 'Types',
+'name' => 'Name',
+'sequence' => 'Sequence',
+
+    ];

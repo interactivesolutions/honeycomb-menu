@@ -1,13 +1,13 @@
 <?php
 
-namespace interactivesolutions\honeycombmenu\app\http\controllers;
+namespace interactivesolutions\honeycombmenu\app\http\controllers\menu;
 
 use Illuminate\Database\Eloquent\Builder;
 use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
-use interactivesolutions\honeycombmenu\app\models\HCMenuTypes;
-use interactivesolutions\honeycombmenu\app\validators\MenuTypesValidator;
+use interactivesolutions\honeycombmenu\app\models\menu\HCMenuTypes;
+use interactivesolutions\honeycombmenu\app\validators\menu\TypesValidator;
 
-class MenuTypesController extends HCBaseController
+class TypesController extends HCBaseController
 {
 
     //TODO recordsPerPage setting
@@ -28,20 +28,19 @@ class MenuTypesController extends HCBaseController
             'headers'     => $this->getAdminListHeader(),
         ];
 
-//        if (auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_types_create'))
-//            $config['actions'][] = 'new';
-//
-//        if (auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_types_update'))
-//        {
-//            $config['actions'][] = 'update';
-//            $config['actions'][] = 'restore';
-//        }
-//
-//        if (auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_types_delete'))
-//            $config['actions'][] = 'delete';
+        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_types_create') )
+            $config['actions'][] = 'new';
+
+        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_types_update') ) {
+            $config['actions'][] = 'update';
+            $config['actions'][] = 'restore';
+        }
+
+        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_types_delete') )
+            $config['actions'][] = 'delete';
 
         $config['actions'][] = 'search';
-        $config['filters'] = $this->getFilters ();
+        $config['filters'] = $this->getFilters();
 
         return hcview('HCCoreUI::admin.content.list', ['config' => $config]);
     }
@@ -54,18 +53,18 @@ class MenuTypesController extends HCBaseController
     public function getAdminListHeader()
     {
         return [
-            'id' => [
-                'type'  => 'text',
-                'label' => trans('HCTranslations::core.id'),
+            'id'     => [
+                "type"  => "text",
+                "label" => trans('HCMenu::menu_types.name'),
             ],
         ];
     }
 
     /**
-    * Create item
-    *
-    * @return mixed
-    */
+     * Create item
+     *
+     * @return mixed
+     */
     protected function __apiStore()
     {
         $data = $this->getInputData();
@@ -76,11 +75,11 @@ class MenuTypesController extends HCBaseController
     }
 
     /**
-    * Updates existing item based on ID
-    *
-    * @param $id
-    * @return mixed
-    */
+     * Updates existing item based on ID
+     *
+     * @param $id
+     * @return mixed
+     */
     protected function __apiUpdate(string $id)
     {
         $record = HCMenuTypes::findOrFail($id);
@@ -93,11 +92,11 @@ class MenuTypesController extends HCBaseController
     }
 
     /**
-    * Updates existing specific items based on ID
-    *
-    * @param string $id
-    * @return mixed
-    */
+     * Updates existing specific items based on ID
+     *
+     * @param string $id
+     * @return mixed
+     */
     protected function __apiUpdateStrict(string $id)
     {
         HCMenuTypes::where('id', $id)->update(request()->all());
@@ -106,11 +105,11 @@ class MenuTypesController extends HCBaseController
     }
 
     /**
-    * Delete records table
-    *
-    * @param $list
-    * @return mixed
-    */
+     * Delete records table
+     *
+     * @param $list
+     * @return mixed
+     */
     protected function __apiDestroy(array $list)
     {
         HCMenuTypes::destroy($list);
@@ -119,11 +118,11 @@ class MenuTypesController extends HCBaseController
     }
 
     /**
-    * Delete records table
-    *
-    * @param $list
-    * @return mixed
-    */
+     * Delete records table
+     *
+     * @param $list
+     * @return mixed
+     */
     protected function __apiForceDelete(array $list)
     {
         HCMenuTypes::onlyTrashed()->whereIn('id', $list)->forceDelete();
@@ -132,11 +131,11 @@ class MenuTypesController extends HCBaseController
     }
 
     /**
-    * Restore multiple records
-    *
-    * @param $list
-    * @return mixed
-    */
+     * Restore multiple records
+     *
+     * @param $list
+     * @return mixed
+     */
     protected function __apiRestore(array $list)
     {
         HCMenuTypes::whereIn('id', $list)->restore();
@@ -154,14 +153,14 @@ class MenuTypesController extends HCBaseController
     {
         $with = [];
 
-        if ($select == null)
+        if( $select == null )
             $select = HCMenuTypes::getFillableFields();
 
         $list = HCMenuTypes::with($with)->select($select)
-        // add filters
-        ->where(function ($query) use ($select) {
-            $query = $this->getRequestParameters($query, $select);
-        });
+            // add filters
+            ->where(function ($query) use ($select) {
+                $query = $this->getRequestParameters($query, $select);
+            });
 
         // enabling check for deleted
         $list = $this->checkForDeleted($list);
@@ -183,9 +182,9 @@ class MenuTypesController extends HCBaseController
      */
     protected function searchQuery(Builder $query, string $phrase)
     {
-        return $query->where (function (Builder $query) use ($phrase) {
-                $query;
-             });
+        return $query->where(function (Builder $query) use ($phrase) {
+            $query->where('id', 'LIKE', '%' . $phrase . '%');
+        });
     }
 
     /**
@@ -195,14 +194,12 @@ class MenuTypesController extends HCBaseController
      */
     protected function getInputData()
     {
-        (new MenuTypesValidator())->validateForm();
+        (new TypesValidator())->validateForm();
 
         $_data = request()->all();
 
-        if (array_has($_data, 'id'))
-            array_set ($data, 'record.id', array_get ($_data, 'id'));
+        array_set($data, 'record.id', array_get($_data, 'id'));
 
-        
         return $data;
     }
 
