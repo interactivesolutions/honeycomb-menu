@@ -139,9 +139,9 @@ class HCMenu extends HCUuidModel
     {
         return $this->subChildren()
             ->with(['children' => function ($query) {
-                $query->select(HCMenu::getFillableFields());
+                $query->select(get_class($this)::getFillableFields());
             }])
-            ->select(HCMenu::getFillableFields());
+            ->select(get_class($this)::getFillableFields());
     }
 
     /**
