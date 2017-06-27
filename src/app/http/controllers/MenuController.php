@@ -4,6 +4,7 @@ namespace interactivesolutions\honeycombmenu\app\http\controllers;
 
 use Illuminate\Database\Eloquent\Builder;
 use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
+use interactivesolutions\honeycombmenu\app\helpers\MenuHelper;
 use interactivesolutions\honeycombmenu\app\models\HCMenu;
 use interactivesolutions\honeycombmenu\app\models\menu\HCMenuTypes;
 use interactivesolutions\honeycombmenu\app\validators\MenuValidator;
@@ -128,7 +129,7 @@ class MenuController extends HCBaseController
 
         $record->menu_groups()->sync(array_get($data, 'menu_groups'));
 
-        $this->forgetMenuCache($record);
+        $record->forgetMenuCache();
 
         return $this->apiShow($record->id);
     }
@@ -145,12 +146,12 @@ class MenuController extends HCBaseController
 
         $data = $this->getInputData();
 
-        $this->forgetMenuCache($record);
+        $record->forgetMenuCache();
 
         $record->update(array_get($data, 'record', []));
         $record->menu_groups()->sync(array_get($data, 'menu_groups'));
 
-        $this->forgetMenuCache($record);
+        $record->forgetMenuCache();
 
         return $this->apiShow($record->id);
     }
@@ -176,7 +177,13 @@ class MenuController extends HCBaseController
      */
     protected function __apiDestroy(array $list)
     {
+        $items = HCMenu::select('menu_type_id', 'language_code')->findMany($list);
+
         HCMenu::destroy($list);
+
+        foreach ( $items as $item ) {
+            $item->forgetMenuCache();
+        }
 
         return hcSuccess();
     }
@@ -204,6 +211,12 @@ class MenuController extends HCBaseController
     {
         HCMenu::whereIn('id', $list)->restore();
 
+        $items = HCMenu::select('menu_type_id', 'language_code')->findMany($list);
+
+        foreach ( $items as $item ) {
+            $item->forgetMenuCache();
+        }
+
         return hcSuccess();
     }
 
@@ -217,14 +230,10 @@ class MenuController extends HCBaseController
     {
         return $query->where(function (Builder $query) use ($phrase) {
             $query->where('parent_id', 'LIKE', '%' . $phrase . '%')
-                ->orWhere('menu_type_id', 'LIKE', '%' . $phrase . '%')
                 ->orWhere('type', 'LIKE', '%' . $phrase . '%')
-                ->orWhere('dropdown', 'LIKE', '%' . $phrase . '%')
-                ->orWhere('icon', 'LIKE', '%' . $phrase . '%')
                 ->orWhere('url', 'LIKE', '%' . $phrase . '%')
                 ->orWhere('link_text', 'LIKE', '%' . $phrase . '%')
-                ->orWhere('page_id', 'LIKE', '%' . $phrase . '%')
-                ->orWhere('sequence', 'LIKE', '%' . $phrase . '%');
+                ->orWhere('page_id', 'LIKE', '%' . $phrase . '%');
         });
     }
 
@@ -305,15 +314,11 @@ class MenuController extends HCBaseController
         return $filters;
     }
 
-
     /**
-     * @param $item
+     * Get options
+     *
+     * @return array
      */
-    protected function forgetMenuCache($item)
-    {
-//        MenuHelper::clearCache($item->menu_id, $item->language_code);
-    }
-
     public function options()
     {
         if( ! request()->has('q') )

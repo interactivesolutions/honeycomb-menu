@@ -5,6 +5,7 @@ namespace interactivesolutions\honeycombmenu\app\models;
 use interactivesolutions\honeycombcore\models\HCUuidModel;
 use interactivesolutions\honeycombcore\models\traits\CustomAppends;
 use interactivesolutions\honeycomblanguages\app\models\HCLanguages;
+use interactivesolutions\honeycombmenu\app\helpers\MenuHelper;
 use interactivesolutions\honeycombmenu\app\models\menu\HCMenuGroups;
 use interactivesolutions\honeycombmenu\app\models\menu\HCMenuTypes;
 use interactivesolutions\honeycombpages\app\models\HCPages;
@@ -153,5 +154,13 @@ class HCMenu extends HCUuidModel
         return $this->belongsToMany(HCMenuGroups::class, 'hc_menu_groups_menu_connection', 'menu_id', 'menu_group_id')
             ->withPivot('sequence')
             ->withTimestamps();
+    }
+
+    /**
+     * Clear menu cache
+     */
+    public function forgetMenuCache()
+    {
+        MenuHelper::clearCache($this->menu_type_id, $this->language_code);
     }
 }

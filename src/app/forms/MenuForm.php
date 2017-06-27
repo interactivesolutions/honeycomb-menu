@@ -175,6 +175,13 @@ class MenuForm
                         ],
                     ],
                 ],
+                [
+                    "type"            => "singleLine",
+                    "fieldID"         => "sequence",
+                    "label"           => trans("HCMenu::menu.sequence"),
+                    "required"        => 0,
+                    "requiredVisible" => 0,
+                ],
             ],
         ];
 
