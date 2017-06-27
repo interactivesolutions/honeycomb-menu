@@ -3,14 +3,23 @@
         "serviceProviderNameSpace": "HCMenu"
     },
     "formData": {
-        "menu-types": "interactivesolutions\\honeycombmenu\\app\\forms\\MenuTypesForm"
+        "menu-types": "interactivesolutions\\honeycombmenu\\app\\forms\\MenuTypesForm",
+        "menu": "interactivesolutions\\honeycombmenu\\app\\forms\\MenuForm"
     },
     "adminMenu": [
         {
             "route": "admin.routes.menu.types.index",
+            "parent": "admin.routes.menu.index",
             "translation": "HCMenu::menu_types.page_title",
             "icon": "fa-circle-o",
             "aclPermission": "interactivesolutions_honeycomb_menu_routes_menu_types_list",
+            "priority": 10
+        },
+        {
+            "route": "admin.routes.menu.index",
+            "translation": "HCMenu::menu.page_title",
+            "icon": "fa-circle-o",
+            "aclPermission": "interactivesolutions_honeycomb_menu_routes_menu_list",
             "priority": 10
         }
     ],
@@ -26,6 +35,17 @@
                     "interactivesolutions_honeycomb_menu_routes_menu_types_delete",
                     "interactivesolutions_honeycomb_menu_routes_menu_types_force_delete"
                 ]
+            },
+            {
+                "name": "admin.routes.menu",
+                "controller": "interactivesolutions\\honeycombmenu\\app\\http\\controllers\\MenuController",
+                "actions": [
+                    "interactivesolutions_honeycomb_menu_routes_menu_list",
+                    "interactivesolutions_honeycomb_menu_routes_menu_create",
+                    "interactivesolutions_honeycomb_menu_routes_menu_update",
+                    "interactivesolutions_honeycomb_menu_routes_menu_delete",
+                    "interactivesolutions_honeycomb_menu_routes_menu_force_delete"
+                ]
             }
         ],
         "rolesActions": {
@@ -33,7 +53,11 @@
                 "interactivesolutions_honeycomb_menu_routes_menu_types_list",
                 "interactivesolutions_honeycomb_menu_routes_menu_types_create",
                 "interactivesolutions_honeycomb_menu_routes_menu_types_update",
-                "interactivesolutions_honeycomb_menu_routes_menu_types_delete"
+                "interactivesolutions_honeycomb_menu_routes_menu_types_delete",
+                "interactivesolutions_honeycomb_menu_routes_menu_list",
+                "interactivesolutions_honeycomb_menu_routes_menu_create",
+                "interactivesolutions_honeycomb_menu_routes_menu_update",
+                "interactivesolutions_honeycomb_menu_routes_menu_delete"
             ]
         }
     }

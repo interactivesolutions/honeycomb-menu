@@ -3,9 +3,12 @@
 namespace interactivesolutions\honeycombmenu\app\models;
 
 use interactivesolutions\honeycombcore\models\HCUuidModel;
+use interactivesolutions\honeycombcore\models\traits\CustomAppends;
 
 class HCMenuTypes extends HCUuidModel
 {
+    use CustomAppends;
+
     /**
      * The database table used by the model.
      *
@@ -19,5 +22,15 @@ class HCMenuTypes extends HCUuidModel
      * @var array
      */
     protected $fillable = ['id'];
+
+    /**
+     * Get label attribute
+     *
+     * @return string|\Symfony\Component\Translation\TranslatorInterface
+     */
+    public function getLabelAttribute()
+    {
+        return trans('HCMenu::menu_types.' . $this->id);
+    }
 
 }
