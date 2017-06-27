@@ -46,6 +46,13 @@ class MenuForm
                     "value"           => session('back-end', app()->getLocale()),
                 ],
                 [
+                    "type"            => "singleLine",
+                    "fieldID"         => "icon",
+                    "label"           => trans("HCMenu::menu.icon"),
+                    "required"        => 0,
+                    "requiredVisible" => 0,
+                ],
+                [
                     'type'            => 'dropDownList',
                     'fieldID'         => 'menu_type',
                     'label'           => trans('HCMenu::menu.menu_type_id'),
@@ -59,34 +66,6 @@ class MenuForm
                     ],
                 ],
                 [
-                    "type"            => "singleLine",
-                    "fieldID"         => "parent_id",
-                    "label"           => trans("HCMenu::menu.parent_id"),
-                    "required"        => 0,
-                    "requiredVisible" => 0,
-                ],
-                [
-                    "type"            => "singleLine",
-                    "fieldID"         => "menu_type_id",
-                    "label"           => trans("HCMenu::menu.menu_type_id"),
-                    "required"        => 0,
-                    "requiredVisible" => 0,
-                ],
-                [
-                    "type"            => "singleLine",
-                    "fieldID"         => "dropdown",
-                    "label"           => trans("HCMenu::menu.dropdown"),
-                    "required"        => 1,
-                    "requiredVisible" => 1,
-                ],
-                [
-                    "type"            => "singleLine",
-                    "fieldID"         => "icon",
-                    "label"           => trans("HCMenu::menu.icon"),
-                    "required"        => 0,
-                    "requiredVisible" => 0,
-                ],
-                [
                     'type'            => 'dropDownList',
                     'fieldID'         => 'menu_groups',
                     'label'           => trans('HCMenu::menu.menu_groups'),
@@ -94,7 +73,7 @@ class MenuForm
                     'required'        => 0,
                     'requiredVisible' => 0,
                     "search"          => [
-//                        "url"                    => route('admin.api.pages.menu.groups.search'),
+                        "url"                    => route('admin.api.routes.menu.groups.search'),
                         "minimumInputLength"     => 0,
                         "maximumSelectionLength" => 10,
                         "showNodes"              => [
@@ -115,7 +94,7 @@ class MenuForm
                     'required'        => 0,
                     'requiredVisible' => 0,
                     "search"          => [
-//                        "url"                    => route('admin.api.pages.menu.search'),
+                        "url"                    => route('admin.api.routes.menu.search'),
                         "minimumInputLength"     => 1,
                         "maximumSelectionLength" => 1,
                         "showNodes"              => [
@@ -134,7 +113,7 @@ class MenuForm
                 [
                     'type'            => 'radioList',
                     'fieldID'         => 'type',
-                    'label'           => trans('pages::menu.type'),
+                    'label'           => trans('HCMenu::menu.type'),
                     'editType'        => 0,
                     'required'        => 1,
                     'requiredVisible' => 1,
@@ -147,8 +126,8 @@ class MenuForm
                 ],
                 [
                     "type"            => "singleLine",
-                    "fieldID"         => "url",
-                    "label"           => trans("HCMenu::menu.url"),
+                    "fieldID"         => "link_text",
+                    "label"           => trans("HCMenu::menu.link_text"),
                     "required"        => 0,
                     "requiredVisible" => 0,
                     "dependencies"    => [
@@ -160,8 +139,8 @@ class MenuForm
                 ],
                 [
                     "type"            => "singleLine",
-                    "fieldID"         => "link_text",
-                    "label"           => trans("HCMenu::menu.link_text"),
+                    "fieldID"         => "url",
+                    "label"           => trans("HCMenu::menu.url"),
                     "required"        => 0,
                     "requiredVisible" => 0,
                     "dependencies"    => [
@@ -195,13 +174,6 @@ class MenuForm
                             'value_id' => 'page',
                         ],
                     ],
-                ],
-                [
-                    "type"            => "singleLine",
-                    "fieldID"         => "sequence",
-                    "label"           => trans("HCMenu::menu.sequence"),
-                    "required"        => 0,
-                    "requiredVisible" => 0,
                 ],
             ],
         ];

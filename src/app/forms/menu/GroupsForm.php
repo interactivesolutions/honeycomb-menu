@@ -1,11 +1,11 @@
 <?php
 
-namespace interactivesolutions\honeycombmenu\app\forms;
+namespace interactivesolutions\honeycombmenu\app\forms\menu;
 
 class GroupsForm
 {
     // name of the form
-    protected $formID = 'groups';
+    protected $formID = 'menu-groups';
 
     // is form multi language
     protected $multiLanguage = 0;
@@ -19,7 +19,7 @@ class GroupsForm
     public function createForm(bool $edit = false)
     {
         $form = [
-            'storageURL' => route('admin.api.routes.groups'),
+            'storageURL' => route('admin.api.routes.menu.groups'),
             'buttons'    => [
                 [
                     "class" => "col-centered",
@@ -45,14 +45,13 @@ class GroupsForm
                 [
                     "type"            => "singleLine",
                     "fieldID"         => "name",
-                    "label"           => trans("HCMenu::groups.name"),
+                    "label"           => trans("HCMenu::menu_groups.name"),
                     "required"        => 1,
                     "requiredVisible" => 1,
-                ],
-                [
+                ], [
                     "type"            => "singleLine",
                     "fieldID"         => "sequence",
-                    "label"           => trans("HCMenu::groups.sequence"),
+                    "label"           => trans("HCMenu::menu_groups.sequence"),
                     "required"        => 0,
                     "requiredVisible" => 0,
                 ],

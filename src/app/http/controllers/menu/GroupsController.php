@@ -1,11 +1,11 @@
 <?php
 
-namespace interactivesolutions\honeycombmenu\app\http\controllers;
+namespace interactivesolutions\honeycombmenu\app\http\controllers\menu;
 
 use Illuminate\Database\Eloquent\Builder;
 use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
-use interactivesolutions\honeycombmenu\app\models\HCMenuGroups;
-use interactivesolutions\honeycombmenu\app\validators\GroupsValidator;
+use interactivesolutions\honeycombmenu\app\models\menu\HCMenuGroups;
+use interactivesolutions\honeycombmenu\app\validators\menu\GroupsValidator;
 
 class GroupsController extends HCBaseController
 {
@@ -20,23 +20,23 @@ class GroupsController extends HCBaseController
     public function adminIndex()
     {
         $config = [
-            'title'       => trans('HCMenu::groups.page_title'),
-            'listURL'     => route('admin.api.routes.groups'),
-            'newFormUrl'  => route('admin.api.form-manager', ['groups-new']),
-            'editFormUrl' => route('admin.api.form-manager', ['groups-edit']),
+            'title'       => trans('HCMenu::menu_groups.page_title'),
+            'listURL'     => route('admin.api.routes.menu.groups'),
+            'newFormUrl'  => route('admin.api.form-manager', ['menu-groups-new']),
+            'editFormUrl' => route('admin.api.form-manager', ['menu-groups-edit']),
             'imagesUrl'   => route('resource.get', ['/']),
             'headers'     => $this->getAdminListHeader(),
         ];
 
-        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_groups_create') )
+        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_groups_create') )
             $config['actions'][] = 'new';
 
-        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_groups_update') ) {
+        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_groups_update') ) {
             $config['actions'][] = 'update';
             $config['actions'][] = 'restore';
         }
 
-        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_groups_delete') )
+        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_groups_delete') )
             $config['actions'][] = 'delete';
 
         $config['actions'][] = 'search';
@@ -55,7 +55,7 @@ class GroupsController extends HCBaseController
         return [
             'name'     => [
                 "type"  => "text",
-                "label" => trans('HCMenu::groups.name'),
+                "label" => trans('HCMenu::menu_groups.name'),
             ],
             'language_code'     => [
                 "type"  => "text",
@@ -63,8 +63,9 @@ class GroupsController extends HCBaseController
             ],
             'sequence' => [
                 "type"  => "text",
-                "label" => trans('HCMenu::groups.sequence'),
+                "label" => trans('HCMenu::menu_groups.sequence'),
             ],
+
         ];
     }
 
@@ -225,7 +226,7 @@ class GroupsController extends HCBaseController
 
         $select = HCMenuGroups::getFillableFields();
         $select[] = 'language_code as language';
-
+        
         $record = HCMenuGroups::with($with)
             ->select($select)
             ->where('id', $id)

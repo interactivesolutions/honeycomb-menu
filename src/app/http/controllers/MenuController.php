@@ -324,4 +324,43 @@ class MenuController extends HCBaseController
     {
 //        MenuHelper::clearCache($item->menu_id, $item->language_id);
     }
+
+    public function pagesSearch()
+    {
+        if( ! request()->has('q') )
+            return [];
+
+        $parameter = request()->input('q');
+
+        if( request()->has('language') && request()->has('menu_type') ) {
+            HCMenu::$customAppends = ['item_label'];
+
+            return HCMenu::select(HCMenu::getFillableFields())
+                ->where(function ($query) {
+                    $query->where('language_id', request()->input('language'))
+                        ->where('menu_id', request()->input('menu_type'));
+                })
+                ->where(function ($query) use ($parameter) {
+                    $query->where('link_text', 'LIKE', '%' . $parameter . '%')
+                        ->orWhereHas('page.content', function ($query) use ($parameter) {
+
+                            $query->where('language_code', request()->input('language'))
+                                ->where('title', 'LIKE', '%' . $parameter . '%');
+                        });
+                })
+                ->get();
+        }
+
+        $list = HCMenu::select("id", "link_text")
+            ->orWhere('link_text', 'LIKE', '%' . $parameter . '%')
+            ->orWhereHas('page.content', function ($query) use ($parameter) {
+
+                $query->where('language_code', request()->input('language'))
+                    ->where('title', 'LIKE', '%' . $parameter . '%');
+            })
+            ->take(50)
+            ->get();
+
+        return $list;
+    }
 }
