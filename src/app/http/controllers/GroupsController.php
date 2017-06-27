@@ -57,11 +57,14 @@ class GroupsController extends HCBaseController
                 "type"  => "text",
                 "label" => trans('HCMenu::groups.name'),
             ],
+            'language_code'     => [
+                "type"  => "text",
+                "label" => trans('HCTranslations::core.language'),
+            ],
             'sequence' => [
                 "type"  => "text",
                 "label" => trans('HCMenu::groups.sequence'),
             ],
-
         ];
     }
 
@@ -203,9 +206,9 @@ class GroupsController extends HCBaseController
 
         $_data = request()->all();
 
-        if( array_has($_data, 'id') )
-            array_set($data, 'record.id', array_get($_data, 'id'));
-
+        array_set($data, 'record.language_code', array_get($_data, 'language'));
+        array_set($data, 'record.name', array_get($_data, 'name'));
+        array_set($data, 'record.sequence', array_get($_data, 'sequence'));
 
         return $data;
     }
@@ -221,6 +224,7 @@ class GroupsController extends HCBaseController
         $with = [];
 
         $select = HCMenuGroups::getFillableFields();
+        $select[] = 'language_code as language';
 
         $record = HCMenuGroups::with($with)
             ->select($select)

@@ -29,6 +29,20 @@ class GroupsForm
             ],
             'structure'  => [
                 [
+                    'type'            => 'dropDownList',
+                    'fieldID'         => 'language',
+                    'label'           => trans('HCTranslations::core.language'),
+                    'editType'        => 0,
+                    'required'        => 1,
+                    'requiredVisible' => 1,
+                    'options'         => getHCLanguagesOptions('front_end', ['language']),
+                    "search"          => [
+                        "minimumInputLength"     => 0,
+                        "maximumSelectionLength" => 1,
+                    ],
+                    "value"           => session('back-end', app()->getLocale()),
+                ],
+                [
                     "type"            => "singleLine",
                     "fieldID"         => "name",
                     "label"           => trans("HCMenu::groups.name"),

@@ -12,8 +12,8 @@ class GroupsValidator extends HCCoreFormValidator
     protected function rules()
     {
         return [
-            'name' => 'required',
-
+            'name'     => 'required',
+            'language' => 'required|exists:hc_languages,iso_639_1',
         ];
     }
 }
