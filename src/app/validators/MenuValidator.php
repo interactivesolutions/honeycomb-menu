@@ -18,7 +18,7 @@ class MenuValidator extends HCCoreFormValidator
             'type'      => 'required',
 //            'dropdown'  => 'required',
 //            'icon'      => 'required',
-            'url'       => 'required_if:type,link|active_url',
+//            'url'       => 'required_if:type,link|active_url',
             'link_text' => 'required_if:type,link',
 //            'page'      => 'required_if:type,page|exists:hc_pages,id,type,PAGE',
 //            'sequence'  => 'required',
