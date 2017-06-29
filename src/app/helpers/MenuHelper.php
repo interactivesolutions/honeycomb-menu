@@ -93,7 +93,6 @@ class MenuHelper
         }
 
         if( $this->cacheEnabled ) {
-            dd('cia');
             $cacheName = self::getCacheName($menuTypeId, $language);
 
             if( Cache::has($cacheName) ) {
