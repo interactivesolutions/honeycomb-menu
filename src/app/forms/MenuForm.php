@@ -133,7 +133,7 @@ class MenuForm
                     "dependencies"    => [
                         [
                             'field_id' => "type",
-                            'value_id' => 'link',
+                            'field_value' => 'link',
                         ],
                     ],
                 ],
@@ -146,7 +146,7 @@ class MenuForm
                     "dependencies"    => [
                         [
                             'field_id' => "type",
-                            'value_id' => 'link',
+                            'field_value' => 'link',
                         ],
                     ],
                 ],
@@ -171,7 +171,7 @@ class MenuForm
                         ],
                         [
                             'field_id' => "type",
-                            'value_id' => 'page',
+                            'field_value' => 'page',
                         ],
                     ],
                 ],

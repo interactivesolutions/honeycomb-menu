@@ -191,16 +191,15 @@ class MenuHelper
         $this->pagesClass::$customAppends = ['page_url'];
 
         $items = $this->menuGroupsClass::select('id', 'name', 'sequence')
-            ->with(['menu_items' => function ($query) use ($language) {
+            ->with(['menu' => function ($query) use ($language) {
                 $query->where('language_code', $language);
             }])
             ->where('language_code', $language)
-            ->active()
             ->orderBy('sequence', 'ASC')
             ->get();
 
         foreach ( $items as $key => $item ) {
-            $items[$key]['menu_items'] = $this->formatMenuItems($item->menu_items);
+            $items[$key]['menu'] = $this->formatMenuItems($item->menu);
         }
 
         return $items;

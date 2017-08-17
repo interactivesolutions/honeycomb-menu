@@ -69,7 +69,7 @@ class MenuController extends HCBaseController
             ],
             'menu_type.label'   => [
                 "type"  => "text",
-                "label" => trans('pages::menu.menu_type_id'),
+                "label" => trans('HCMenu::menu.menu_type_id'),
             ],
         ];
     }

@@ -28,14 +28,14 @@ class TypesController extends HCBaseController
             'headers'     => $this->getAdminListHeader(),
         ];
 
-        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_types_create') )
-            $config['actions'][] = 'new';
-
-        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_types_update') ) {
-            $config['actions'][] = 'update';
-            $config['actions'][] = 'restore';
-        }
-
+//        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_types_create') )
+//            $config['actions'][] = 'new';
+//
+//        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_types_update') ) {
+//            $config['actions'][] = 'update';
+//            $config['actions'][] = 'restore';
+//        }
+//
         if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_types_delete') )
             $config['actions'][] = 'delete';
 
