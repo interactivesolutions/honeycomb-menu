@@ -2,7 +2,9 @@
 
 namespace interactivesolutions\honeycombmenu\app\providers;
 
+use Illuminate\Routing\Router;
 use interactivesolutions\honeycombcore\providers\HCBaseServiceProvider;
+use interactivesolutions\honeycombmenu\app\http\middleware\HCMenu;
 
 class HCMenuServiceProvider extends HCBaseServiceProvider
 {
@@ -13,6 +15,11 @@ class HCMenuServiceProvider extends HCBaseServiceProvider
     protected $namespace = 'interactivesolutions\honeycombmenu\app\http\controllers';
 
     public $serviceProviderNameSpace = 'HCMenu';
+
+    public function registerMiddleWare(Router $router)
+    {
+        $router->pushMiddleWareToGroup ('web', HCMenu::class);
+    }
 }
 
 
