@@ -192,7 +192,12 @@ class MenuHelper
 
         $items = $this->menuGroupsClass::select('id', 'name', 'sequence')
             ->with(['menu' => function ($query) use ($language) {
-                $query->where('language_code', $language)
+                $query->with([
+                    'children',
+                    'page' => function ($query) {
+                        $query->with('translations');
+                    },
+                ])->where('language_code', $language)
                     ->orderBy('sequence');
             }])
             ->where('language_code', $language)
