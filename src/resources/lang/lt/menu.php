@@ -1,4 +1,5 @@
 <?php
+
 return [
     'page_title'   => 'Meniu elementai',
     'language_id'  => 'Kalba',
@@ -13,6 +14,8 @@ return [
     'title'        => 'Antraštė',
     'menu_groups'  => 'Meniu grupė',
     'link_text'    => 'Nuorodos tekstas',
+    'url'          => 'Url',
+    'link_type'    => 'Nuorodos tipas',
 
     'types' => [
         'link' => 'Mano nuoroda',

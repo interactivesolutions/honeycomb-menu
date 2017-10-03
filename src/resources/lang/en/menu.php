@@ -1,4 +1,5 @@
 <?php
+
 return [
     'page_title'   => 'Menu items',
     'language_id'  => 'Language',
@@ -14,6 +15,7 @@ return [
     'menu_groups'  => 'Menu groups',
     'link_text'    => 'Link text',
     'url'          => 'Url',
+    'link_type'    => 'Link type',
 
     'types' => [
         'link' => 'Custom link',

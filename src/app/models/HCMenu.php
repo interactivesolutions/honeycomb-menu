@@ -33,7 +33,7 @@ class HCMenu extends HCUuidModel
      *
      * @var array
      */
-    protected $fillable = ['id', 'parent_id', 'menu_type_id', 'type', 'dropdown', 'icon', 'url', 'link_text', 'page_id', 'sequence', 'language_code'];
+    protected $fillable = ['id', 'parent_id', 'menu_type_id', 'type', 'dropdown', 'icon', 'url', 'link_text', 'page_id', 'sequence', 'language_code', 'link_type'];
 
     /**
      * Get label attribute

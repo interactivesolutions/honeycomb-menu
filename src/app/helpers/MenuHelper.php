@@ -35,7 +35,7 @@ class MenuHelper
      *
      * @var array
      */
-    protected $selectFields = ['dropdown', 'icon', 'item_label', 'item_url', 'sequence'];
+    protected $selectFields = ['dropdown', 'icon', 'item_label', 'item_url', 'sequence', 'link_type'];
 
     /**
      * By default cache is enabled

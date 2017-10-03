@@ -71,6 +71,10 @@ class MenuController extends HCBaseController
                 "type"  => "text",
                 "label" => trans('HCMenu::menu.menu_type_id'),
             ],
+            'link_type'         => [
+                "type"  => "text",
+                "label" => trans('HCMenu::menu.link_type'),
+            ],
         ];
     }
 
@@ -85,13 +89,13 @@ class MenuController extends HCBaseController
         HCMenu::$customAppends = ['item_label', 'item_url'];
         HCMenuTypes::$customAppends = ['label'];
 
-        $with = ['language' => function ($query) {
+        $with = ['language'    => function ($query) {
             $query->select('id', 'iso_639_1');
-        }, 'parent'         => function ($query) {
+        }, 'parent'            => function ($query) {
             $query->select(HCMenu::getFillableFields());
-        }, 'page.translations'   => function ($query) {
+        }, 'page.translations' => function ($query) {
             $query->select('id', 'record_id', 'title', 'slug');
-        }, 'menu_type'      => function ($query) {
+        }, 'menu_type'         => function ($query) {
             $query->select('id');
         }];
 
@@ -256,6 +260,7 @@ class MenuController extends HCBaseController
         array_set($data, 'record.link_text', array_get($_data, 'link_text'));
         array_set($data, 'record.page_id', array_get($_data, 'page_translations'));
 
+        array_set($data, 'record.link_type', array_get($_data, 'link_type'));
         array_set($data, 'record.icon', array_get($_data, 'icon'));
         array_set($data, 'record.dropdown', array_get($_data, 'dropdown', "0"));
         array_set($data, 'record.sequence', array_get($_data, 'sequence', null));

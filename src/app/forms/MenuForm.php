@@ -176,6 +176,23 @@ class MenuForm
                     ],
                 ],
                 [
+                    'type'            => 'radioList',
+                    'fieldID'         => 'link_type',
+                    'label'           => trans('HCMenu::menu.link_type'),
+                    "required"        => 1,
+                    "requiredVisible" => 1,
+                    "options"         => [
+                        [
+                            'id'    => '_blank',
+                            'label' => '_blank',
+                        ],
+                        [
+                            'id'    => '_self',
+                            'label' => '_self',
+                        ],
+                    ],
+                ],
+                [
                     "type"            => "singleLine",
                     "fieldID"         => "sequence",
                     "label"           => trans("HCMenu::menu.sequence"),
