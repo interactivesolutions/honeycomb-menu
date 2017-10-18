@@ -1,7 +1,7 @@
 <?php
-    return [
-        'page_title' => 'Types',
-'name' => 'Name',
-'sequence' => 'Sequence',
+return [
+    'page_title' => 'Types',
+    'name' => 'Name',
+    'sequence' => 'Sequence',
 
-    ];
+];

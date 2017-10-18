@@ -20,49 +20,52 @@ class GroupsForm
     {
         $form = [
             'storageURL' => route('admin.api.routes.menu.groups'),
-            'buttons'    => [
+            'buttons' => [
                 [
                     "class" => "col-centered",
                     "label" => trans('HCTranslations::core.buttons.submit'),
-                    "type"  => "submit",
+                    "type" => "submit",
                 ],
             ],
-            'structure'  => [
+            'structure' => [
                 [
-                    'type'            => 'dropDownList',
-                    'fieldID'         => 'language',
-                    'label'           => trans('HCTranslations::core.language'),
-                    'editType'        => 0,
-                    'required'        => 1,
+                    'type' => 'dropDownList',
+                    'fieldID' => 'language',
+                    'label' => trans('HCTranslations::core.language'),
+                    'editType' => 0,
+                    'required' => 1,
                     'requiredVisible' => 1,
-                    'options'         => getHCLanguagesOptions('front_end', ['language']),
-                    "search"          => [
-                        "minimumInputLength"     => 0,
+                    'options' => getHCLanguagesOptions('front_end', ['language']),
+                    "search" => [
+                        "minimumInputLength" => 0,
                         "maximumSelectionLength" => 1,
                     ],
-                    "value"           => session('back-end', app()->getLocale()),
+                    "value" => session('back-end', app()->getLocale()),
                 ],
                 [
-                    "type"            => "singleLine",
-                    "fieldID"         => "name",
-                    "label"           => trans("HCMenu::menu_groups.name"),
-                    "required"        => 1,
+                    "type" => "singleLine",
+                    "fieldID" => "name",
+                    "label" => trans("HCMenu::menu_groups.name"),
+                    "required" => 1,
                     "requiredVisible" => 1,
-                ], [
-                    "type"            => "singleLine",
-                    "fieldID"         => "sequence",
-                    "label"           => trans("HCMenu::menu_groups.sequence"),
-                    "required"        => 0,
+                ],
+                [
+                    "type" => "singleLine",
+                    "fieldID" => "sequence",
+                    "label" => trans("HCMenu::menu_groups.sequence"),
+                    "required" => 0,
                     "requiredVisible" => 0,
                 ],
             ],
         ];
 
-        if( $this->multiLanguage )
+        if ($this->multiLanguage) {
             $form['availableLanguages'] = getHCContentLanguages();
+        }
 
-        if( ! $edit )
+        if (!$edit) {
             return $form;
+        }
 
         //Make changes to edit form if needed
         // $form['structure'][] = [];

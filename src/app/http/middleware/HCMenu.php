@@ -12,22 +12,22 @@ class HCMenu
     public function handle(Request $request, Closure $next)
     {
         $firstSegment = request()->segment(1);
-        $menuList     = config('hc.menu');
+        $menuList = config('hc.menu');
 
         $noLanguage = config('hc.noLanguage');
         array_push($noLanguage, config('hc.admin_url'));
 
-        if (!in_array($firstSegment, $noLanguage) && !empty($menuList))
-        {
+        if (!in_array($firstSegment, $noLanguage) && !empty($menuList)) {
             $mh = new MenuHelper();
             $menu = [];
 
-            foreach ($menuList as $key => $menuID)
+            foreach ($menuList as $key => $menuID) {
                 $menu[$key] = $mh->getMenu($menuID, app()->getLocale());
+            }
 
             View::share("menu", $menu);
         }
 
-        return($next($request));
+        return ($next($request));
     }
 }

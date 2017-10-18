@@ -3,7 +3,7 @@
 namespace interactivesolutions\honeycombmenu\app\http\controllers\menu;
 
 use Illuminate\Database\Eloquent\Builder;
-use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
+use InteractiveSolutions\HoneycombCore\Http\Controllers\HCBaseController;
 use interactivesolutions\honeycombmenu\app\models\menu\HCMenuTypes;
 use interactivesolutions\honeycombmenu\app\validators\menu\TypesValidator;
 
@@ -20,12 +20,12 @@ class TypesController extends HCBaseController
     public function adminIndex()
     {
         $config = [
-            'title'       => trans('HCMenu::menu_types.page_title'),
-            'listURL'     => route('admin.api.routes.menu.types'),
-            'newFormUrl'  => route('admin.api.form-manager', ['menu-types-new']),
+            'title' => trans('HCMenu::menu_types.page_title'),
+            'listURL' => route('admin.api.routes.menu.types'),
+            'newFormUrl' => route('admin.api.form-manager', ['menu-types-new']),
             'editFormUrl' => route('admin.api.form-manager', ['menu-types-edit']),
-            'imagesUrl'   => route('resource.get', ['/']),
-            'headers'     => $this->getAdminListHeader(),
+            'imagesUrl' => route('resource.get', ['/']),
+            'headers' => $this->getAdminListHeader(),
         ];
 
         $config['actions'][] = 'search';
@@ -42,8 +42,8 @@ class TypesController extends HCBaseController
     public function getAdminListHeader()
     {
         return [
-            'id'     => [
-                "type"  => "text",
+            'id' => [
+                "type" => "text",
                 "label" => trans('HCMenu::menu_types.name'),
             ],
         ];
@@ -142,12 +142,13 @@ class TypesController extends HCBaseController
     {
         $with = [];
 
-        if( $select == null )
+        if ($select == null) {
             $select = HCMenuTypes::getFillableFields();
+        }
 
         $list = HCMenuTypes::with($with)->select($select)
             // add filters
-            ->where(function ($query) use ($select) {
+            ->where(function($query) use ($select) {
                 $query = $this->getRequestParameters($query, $select);
             });
 
@@ -171,7 +172,7 @@ class TypesController extends HCBaseController
      */
     protected function searchQuery(Builder $query, string $phrase)
     {
-        return $query->where(function (Builder $query) use ($phrase) {
+        return $query->where(function(Builder $query) use ($phrase) {
             $query->where('id', 'LIKE', '%' . $phrase . '%');
         });
     }

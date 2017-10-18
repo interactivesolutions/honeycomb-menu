@@ -3,8 +3,7 @@
 namespace interactivesolutions\honeycombmenu\app\http\controllers;
 
 use Illuminate\Database\Eloquent\Builder;
-use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
-use interactivesolutions\honeycombmenu\app\helpers\MenuHelper;
+use InteractiveSolutions\HoneycombCore\Http\Controllers\HCBaseController;
 use interactivesolutions\honeycombmenu\app\models\HCMenu;
 use interactivesolutions\honeycombmenu\app\models\menu\HCMenuTypes;
 use interactivesolutions\honeycombmenu\app\validators\MenuValidator;
@@ -22,24 +21,26 @@ class MenuController extends HCBaseController
     public function adminIndex()
     {
         $config = [
-            'title'       => trans('HCMenu::menu.page_title'),
-            'listURL'     => route('admin.api.routes.menu'),
-            'newFormUrl'  => route('admin.api.form-manager', ['menu-new']),
+            'title' => trans('HCMenu::menu.page_title'),
+            'listURL' => route('admin.api.routes.menu'),
+            'newFormUrl' => route('admin.api.form-manager', ['menu-new']),
             'editFormUrl' => route('admin.api.form-manager', ['menu-edit']),
-            'imagesUrl'   => route('resource.get', ['/']),
-            'headers'     => $this->getAdminListHeader(),
+            'imagesUrl' => route('resource.get', ['/']),
+            'headers' => $this->getAdminListHeader(),
         ];
 
-        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_create') )
+        if (auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_create')) {
             $config['actions'][] = 'new';
+        }
 
-        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_update') ) {
+        if (auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_update')) {
             $config['actions'][] = 'update';
             $config['actions'][] = 'restore';
         }
 
-        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_delete') )
+        if (auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_delete')) {
             $config['actions'][] = 'delete';
+        }
 
         $config['actions'][] = 'search';
         $config['filters'] = $this->getFilters();
@@ -55,24 +56,24 @@ class MenuController extends HCBaseController
     public function getAdminListHeader()
     {
         return [
-            'item_label'        => [
-                "type"  => "text",
+            'item_label' => [
+                "type" => "text",
                 "label" => trans('HCMenu::menu.title'),
             ],
             'parent.item_label' => [
-                "type"  => "text",
+                "type" => "text",
                 "label" => trans('HCMenu::menu.parent_id'),
             ],
-            'type'              => [
-                "type"  => "text",
+            'type' => [
+                "type" => "text",
                 "label" => trans('HCMenu::menu.type'),
             ],
-            'menu_type.label'   => [
-                "type"  => "text",
+            'menu_type.label' => [
+                "type" => "text",
                 "label" => trans('HCMenu::menu.menu_type_id'),
             ],
-            'link_type'         => [
-                "type"  => "text",
+            'link_type' => [
+                "type" => "text",
                 "label" => trans('HCMenu::menu.link_type'),
             ],
         ];
@@ -89,22 +90,28 @@ class MenuController extends HCBaseController
         HCMenu::$customAppends = ['item_label', 'item_url'];
         HCMenuTypes::$customAppends = ['label'];
 
-        $with = ['language'    => function ($query) {
-            $query->select('id', 'iso_639_1');
-        }, 'parent'            => function ($query) {
-            $query->select(HCMenu::getFillableFields());
-        }, 'page.translations' => function ($query) {
-            $query->select('id', 'record_id', 'title', 'slug');
-        }, 'menu_type'         => function ($query) {
-            $query->select('id');
-        }];
+        $with = [
+            'language' => function($query) {
+                $query->select('id', 'iso_639_1');
+            },
+            'parent' => function($query) {
+                $query->select(HCMenu::getFillableFields());
+            },
+            'page.translations' => function($query) {
+                $query->select('id', 'record_id', 'title', 'slug');
+            },
+            'menu_type' => function($query) {
+                $query->select('id');
+            },
+        ];
 
-        if( $select == null )
+        if ($select == null) {
             $select = HCMenu::getFillableFields();
+        }
 
         $list = HCMenu::with($with)->select($select)
             // add filters
-            ->where(function ($query) use ($select) {
+            ->where(function($query) use ($select) {
                 $query = $this->getRequestParameters($query, $select);
             });
 
@@ -122,8 +129,8 @@ class MenuController extends HCBaseController
 
     /**
      * Create item
-     *
      * @return mixed
+     * @throws \Exception
      */
     protected function __apiStore()
     {
@@ -141,8 +148,9 @@ class MenuController extends HCBaseController
     /**
      * Updates existing item based on ID
      *
-     * @param $id
+     * @param string $id
      * @return mixed
+     * @throws \Exception
      */
     protected function __apiUpdate(string $id)
     {
@@ -185,7 +193,7 @@ class MenuController extends HCBaseController
 
         HCMenu::destroy($list);
 
-        foreach ( $items as $item ) {
+        foreach ($items as $item) {
             $item->forgetMenuCache();
         }
 
@@ -217,7 +225,7 @@ class MenuController extends HCBaseController
 
         $items = HCMenu::select('menu_type_id', 'language_code')->findMany($list);
 
-        foreach ( $items as $item ) {
+        foreach ($items as $item) {
             $item->forgetMenuCache();
         }
 
@@ -232,7 +240,7 @@ class MenuController extends HCBaseController
      */
     protected function searchQuery(Builder $query, string $phrase)
     {
-        return $query->where(function (Builder $query) use ($phrase) {
+        return $query->where(function(Builder $query) use ($phrase) {
             $query->where('parent_id', 'LIKE', '%' . $phrase . '%')
                 ->orWhere('type', 'LIKE', '%' . $phrase . '%')
                 ->orWhere('url', 'LIKE', '%' . $phrase . '%')
@@ -278,13 +286,15 @@ class MenuController extends HCBaseController
      */
     public function apiShow(string $id)
     {
-        $with = ['parent',
-            'page.translations' => function ($query) {
+        $with = [
+            'parent',
+            'page.translations' => function($query) {
                 $query->select('id', 'record_id', 'title', 'language_code');
             },
-            'menu_groups'       => function ($query) {
+            'menu_groups' => function($query) {
                 $query->select('id', 'name');
-            }];
+            },
+        ];
 
         HCMenu::$customAppends = ['item_label'];
 
@@ -297,9 +307,9 @@ class MenuController extends HCBaseController
             ->where('id', $id)
             ->firstOrFail();
 
-        if( $record->page_id ) {
+        if ($record->page_id) {
             $record->page_translations = [
-                'id'    => $record->page_id,
+                'id' => $record->page_id,
                 'title' => $record->item_label,
             ];
         }
@@ -326,22 +336,23 @@ class MenuController extends HCBaseController
      */
     public function options()
     {
-        if( ! request()->has('q') )
+        if (!request()->has('q')) {
             return [];
+        }
 
         $parameter = request()->input('q');
 
-        if( request()->has('language') && request()->has('menu_type') ) {
+        if (request()->has('language') && request()->has('menu_type')) {
             HCMenu::$customAppends = ['item_label'];
 
             return HCMenu::select(HCMenu::getFillableFields())
-                ->where(function ($query) {
+                ->where(function($query) {
                     $query->where('language_code', request()->input('language'))
                         ->where('menu_type_id', request()->input('menu_type'));
                 })
-                ->where(function ($query) use ($parameter) {
+                ->where(function($query) use ($parameter) {
                     $query->where('link_text', 'LIKE', '%' . $parameter . '%')
-                        ->orWhereHas('page.translations', function ($query) use ($parameter) {
+                        ->orWhereHas('page.translations', function($query) use ($parameter) {
 
                             $query->where('language_code', request()->input('language'))
                                 ->where('title', 'LIKE', '%' . $parameter . '%');
@@ -352,7 +363,7 @@ class MenuController extends HCBaseController
 
         $list = HCMenu::select("id", "link_text")
             ->orWhere('link_text', 'LIKE', '%' . $parameter . '%')
-            ->orWhereHas('page.translations', function ($query) use ($parameter) {
+            ->orWhereHas('page.translations', function($query) use ($parameter) {
 
                 $query->where('language_code', request()->input('language'))
                     ->where('title', 'LIKE', '%' . $parameter . '%');

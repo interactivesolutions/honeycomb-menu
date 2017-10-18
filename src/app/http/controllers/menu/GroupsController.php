@@ -3,7 +3,7 @@
 namespace interactivesolutions\honeycombmenu\app\http\controllers\menu;
 
 use Illuminate\Database\Eloquent\Builder;
-use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
+use InteractiveSolutions\HoneycombCore\Http\Controllers\HCBaseController;
 use interactivesolutions\honeycombmenu\app\models\menu\HCMenuGroups;
 use interactivesolutions\honeycombmenu\app\validators\menu\GroupsValidator;
 
@@ -20,24 +20,26 @@ class GroupsController extends HCBaseController
     public function adminIndex()
     {
         $config = [
-            'title'       => trans('HCMenu::menu_groups.page_title'),
-            'listURL'     => route('admin.api.routes.menu.groups'),
-            'newFormUrl'  => route('admin.api.form-manager', ['menu-groups-new']),
+            'title' => trans('HCMenu::menu_groups.page_title'),
+            'listURL' => route('admin.api.routes.menu.groups'),
+            'newFormUrl' => route('admin.api.form-manager', ['menu-groups-new']),
             'editFormUrl' => route('admin.api.form-manager', ['menu-groups-edit']),
-            'imagesUrl'   => route('resource.get', ['/']),
-            'headers'     => $this->getAdminListHeader(),
+            'imagesUrl' => route('resource.get', ['/']),
+            'headers' => $this->getAdminListHeader(),
         ];
 
-        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_groups_create') )
+        if (auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_groups_create')) {
             $config['actions'][] = 'new';
+        }
 
-        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_groups_update') ) {
+        if (auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_groups_update')) {
             $config['actions'][] = 'update';
             $config['actions'][] = 'restore';
         }
 
-        if( auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_groups_delete') )
+        if (auth()->user()->can('interactivesolutions_honeycomb_menu_routes_menu_groups_delete')) {
             $config['actions'][] = 'delete';
+        }
 
         $config['actions'][] = 'search';
         $config['filters'] = $this->getFilters();
@@ -53,16 +55,16 @@ class GroupsController extends HCBaseController
     public function getAdminListHeader()
     {
         return [
-            'name'          => [
-                "type"  => "text",
+            'name' => [
+                "type" => "text",
                 "label" => trans('HCMenu::menu_groups.name'),
             ],
             'language_code' => [
-                "type"  => "text",
+                "type" => "text",
                 "label" => trans('HCTranslations::core.language'),
             ],
-            'sequence'      => [
-                "type"  => "text",
+            'sequence' => [
+                "type" => "text",
                 "label" => trans('HCMenu::menu_groups.sequence'),
             ],
 
@@ -71,8 +73,8 @@ class GroupsController extends HCBaseController
 
     /**
      * Create item
-     *
      * @return mixed
+     * @throws \Exception
      */
     protected function __apiStore()
     {
@@ -86,8 +88,9 @@ class GroupsController extends HCBaseController
     /**
      * Updates existing item based on ID
      *
-     * @param $id
+     * @param string $id
      * @return mixed
+     * @throws \Exception
      */
     protected function __apiUpdate(string $id)
     {
@@ -162,12 +165,13 @@ class GroupsController extends HCBaseController
     {
         $with = [];
 
-        if( $select == null )
+        if ($select == null) {
             $select = HCMenuGroups::getFillableFields();
+        }
 
         $list = HCMenuGroups::with($with)->select($select)
             // add filters
-            ->where(function ($query) use ($select) {
+            ->where(function($query) use ($select) {
                 $query = $this->getRequestParameters($query, $select);
             });
 
@@ -191,15 +195,15 @@ class GroupsController extends HCBaseController
      */
     protected function searchQuery(Builder $query, string $phrase)
     {
-        return $query->where(function (Builder $query) use ($phrase) {
+        return $query->where(function(Builder $query) use ($phrase) {
             $query->where('name', 'LIKE', '%' . $phrase . '%');
         });
     }
 
     /**
      * Getting user data on POST call
-     *
      * @return mixed
+     * @throws \Exception
      */
     protected function getInputData()
     {
@@ -254,7 +258,7 @@ class GroupsController extends HCBaseController
      */
     public function options()
     {
-        if( request()->has('language') ) {
+        if (request()->has('language')) {
             return HCMenuGroups::select("id", "name")
                 ->where('language_code', request()->input('language'))
                 ->orderBy('sequence')

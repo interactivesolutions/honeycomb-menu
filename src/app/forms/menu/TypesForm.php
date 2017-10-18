@@ -20,29 +20,31 @@ class TypesForm
     {
         $form = [
             'storageURL' => route('admin.api.routes.menu.types'),
-            'buttons'    => [
+            'buttons' => [
                 [
                     "class" => "col-centered",
                     "label" => trans('HCTranslations::core.buttons.submit'),
-                    "type"  => "submit",
+                    "type" => "submit",
                 ],
             ],
-            'structure'  => [
+            'structure' => [
                 [
-                    "type"            => "singleLine",
-                    "fieldID"         => "id",
-                    "label"           => trans("HCTranslations::core.id"),
-                    "required"        => 1,
+                    "type" => "singleLine",
+                    "fieldID" => "id",
+                    "label" => trans("HCTranslations::core.id"),
+                    "required" => 1,
                     "requiredVisible" => 1,
                 ],
             ],
         ];
 
-        if( $this->multiLanguage )
+        if ($this->multiLanguage) {
             $form['availableLanguages'] = getHCContentLanguages();
+        }
 
-        if( ! $edit )
+        if (!$edit) {
             return $form;
+        }
 
         //Make changes to edit form if needed
         // $form['structure'][] = [];

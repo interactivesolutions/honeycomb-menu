@@ -13,7 +13,7 @@ class AddLinkTypeToHcMenuTable extends Migration
      */
     public function up()
     {
-        Schema::table('hc_menu', function (Blueprint $table) {
+        Schema::table('hc_menu', function(Blueprint $table) {
             $table->enum('link_type', ['_self', '_blank'])->default('_blank');
         });
     }
@@ -25,7 +25,7 @@ class AddLinkTypeToHcMenuTable extends Migration
      */
     public function down()
     {
-        Schema::table('hc_menu', function (Blueprint $table) {
+        Schema::table('hc_menu', function(Blueprint $table) {
             $table->dropColumn('link_type');
         });
     }

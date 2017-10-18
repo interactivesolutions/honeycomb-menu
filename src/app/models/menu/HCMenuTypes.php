@@ -2,8 +2,9 @@
 
 namespace interactivesolutions\honeycombmenu\app\models\menu;
 
-use interactivesolutions\honeycombcore\models\HCUuidModel;
-use interactivesolutions\honeycombcore\models\traits\CustomAppends;
+
+use InteractiveSolutions\HoneycombCore\Models\HCUuidModel;
+use InteractiveSolutions\HoneycombCore\Models\Traits\CustomAppends;
 
 class HCMenuTypes extends HCUuidModel
 {

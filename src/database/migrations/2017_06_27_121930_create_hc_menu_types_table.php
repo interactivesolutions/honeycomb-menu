@@ -12,7 +12,7 @@ class CreateHcMenuTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('hc_menu_types', function (Blueprint $table) {
+        Schema::create('hc_menu_types', function(Blueprint $table) {
             $table->integer('count', true);
             $table->string('id', 36)->unique('id_UNIQUE');
             $table->timestamps();

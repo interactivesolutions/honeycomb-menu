@@ -1,88 +1,88 @@
 {
-    "general": {
-        "serviceProviderNameSpace": "HCMenu"
+  "general": {
+    "serviceProviderNameSpace": "HCMenu"
+  },
+  "formData": {
+    "menu": "interactivesolutions\\honeycombmenu\\app\\forms\\MenuForm",
+    "menu-groups": "interactivesolutions\\honeycombmenu\\app\\forms\\menu\\GroupsForm",
+    "menu-types": "interactivesolutions\\honeycombmenu\\app\\forms\\menu\\TypesForm"
+  },
+  "adminMenu": [
+    {
+      "route": "admin.routes.menu.index",
+      "translation": "HCMenu::menu.page_title",
+      "icon": "fa-circle-o",
+      "aclPermission": "interactivesolutions_honeycomb_menu_routes_menu_list",
+      "priority": 10
     },
-    "formData": {
-        "menu": "interactivesolutions\\honeycombmenu\\app\\forms\\MenuForm",
-        "menu-groups": "interactivesolutions\\honeycombmenu\\app\\forms\\menu\\GroupsForm",
-        "menu-types": "interactivesolutions\\honeycombmenu\\app\\forms\\menu\\TypesForm"
+    {
+      "route": "admin.routes.menu.groups.index",
+      "parent": "admin.routes.menu.index",
+      "translation": "HCMenu::menu_groups.page_title",
+      "icon": "fa-circle-o",
+      "aclPermission": "interactivesolutions_honeycomb_menu_routes_menu_groups_list",
+      "priority": 10
     },
-    "adminMenu": [
-        {
-            "route": "admin.routes.menu.index",
-            "translation": "HCMenu::menu.page_title",
-            "icon": "fa-circle-o",
-            "aclPermission": "interactivesolutions_honeycomb_menu_routes_menu_list",
-            "priority": 10
-        },
-        {
-            "route": "admin.routes.menu.groups.index",
-            "parent": "admin.routes.menu.index",
-            "translation": "HCMenu::menu_groups.page_title",
-            "icon": "fa-circle-o",
-            "aclPermission": "interactivesolutions_honeycomb_menu_routes_menu_groups_list",
-            "priority": 10
-        },
-        {
-            "route": "admin.routes.menu.types.index",
-            "parent": "admin.routes.menu.index",
-            "translation": "HCMenu::menu_types.page_title",
-            "icon": "fa-circle-o",
-            "aclPermission": "interactivesolutions_honeycomb_menu_routes_menu_types_list",
-            "priority": 10
-        }
-    ],
-    "acl": {
-        "permissions": [
-            {
-                "name": "admin.routes.menu",
-                "controller": "interactivesolutions\\honeycombmenu\\app\\http\\controllers\\MenuController",
-                "actions": [
-                    "interactivesolutions_honeycomb_menu_routes_menu_list",
-                    "interactivesolutions_honeycomb_menu_routes_menu_create",
-                    "interactivesolutions_honeycomb_menu_routes_menu_update",
-                    "interactivesolutions_honeycomb_menu_routes_menu_delete",
-                    "interactivesolutions_honeycomb_menu_routes_menu_force_delete"
-                ]
-            },
-            {
-                "name": "admin.routes.menu.groups",
-                "controller": "interactivesolutions\\honeycombmenu\\app\\http\\controllers\\menu\\GroupsController",
-                "actions": [
-                    "interactivesolutions_honeycomb_menu_routes_menu_groups_list",
-                    "interactivesolutions_honeycomb_menu_routes_menu_groups_create",
-                    "interactivesolutions_honeycomb_menu_routes_menu_groups_update",
-                    "interactivesolutions_honeycomb_menu_routes_menu_groups_delete",
-                    "interactivesolutions_honeycomb_menu_routes_menu_groups_force_delete"
-                ]
-            },
-            {
-                "name": "admin.routes.menu.types",
-                "controller": "interactivesolutions\\honeycombmenu\\app\\http\\controllers\\menu\\TypesController",
-                "actions": [
-                    "interactivesolutions_honeycomb_menu_routes_menu_types_list",
-                    "interactivesolutions_honeycomb_menu_routes_menu_types_create",
-                    "interactivesolutions_honeycomb_menu_routes_menu_types_update",
-                    "interactivesolutions_honeycomb_menu_routes_menu_types_delete",
-                    "interactivesolutions_honeycomb_menu_routes_menu_types_force_delete"
-                ]
-            }
-        ],
-        "rolesActions": {
-            "project-admin": [
-                "interactivesolutions_honeycomb_menu_routes_menu_types_list",
-                "interactivesolutions_honeycomb_menu_routes_menu_types_create",
-                "interactivesolutions_honeycomb_menu_routes_menu_types_update",
-                "interactivesolutions_honeycomb_menu_routes_menu_types_delete",
-                "interactivesolutions_honeycomb_menu_routes_menu_list",
-                "interactivesolutions_honeycomb_menu_routes_menu_create",
-                "interactivesolutions_honeycomb_menu_routes_menu_update",
-                "interactivesolutions_honeycomb_menu_routes_menu_delete",
-                "interactivesolutions_honeycomb_menu_routes_menu_groups_list",
-                "interactivesolutions_honeycomb_menu_routes_menu_groups_create",
-                "interactivesolutions_honeycomb_menu_routes_menu_groups_update",
-                "interactivesolutions_honeycomb_menu_routes_menu_groups_delete"
-            ]
-        }
+    {
+      "route": "admin.routes.menu.types.index",
+      "parent": "admin.routes.menu.index",
+      "translation": "HCMenu::menu_types.page_title",
+      "icon": "fa-circle-o",
+      "aclPermission": "interactivesolutions_honeycomb_menu_routes_menu_types_list",
+      "priority": 10
     }
+  ],
+  "acl": {
+    "permissions": [
+      {
+        "name": "admin.routes.menu",
+        "controller": "interactivesolutions\\honeycombmenu\\app\\http\\controllers\\MenuController",
+        "actions": [
+          "interactivesolutions_honeycomb_menu_routes_menu_list",
+          "interactivesolutions_honeycomb_menu_routes_menu_create",
+          "interactivesolutions_honeycomb_menu_routes_menu_update",
+          "interactivesolutions_honeycomb_menu_routes_menu_delete",
+          "interactivesolutions_honeycomb_menu_routes_menu_force_delete"
+        ]
+      },
+      {
+        "name": "admin.routes.menu.groups",
+        "controller": "interactivesolutions\\honeycombmenu\\app\\http\\controllers\\menu\\GroupsController",
+        "actions": [
+          "interactivesolutions_honeycomb_menu_routes_menu_groups_list",
+          "interactivesolutions_honeycomb_menu_routes_menu_groups_create",
+          "interactivesolutions_honeycomb_menu_routes_menu_groups_update",
+          "interactivesolutions_honeycomb_menu_routes_menu_groups_delete",
+          "interactivesolutions_honeycomb_menu_routes_menu_groups_force_delete"
+        ]
+      },
+      {
+        "name": "admin.routes.menu.types",
+        "controller": "interactivesolutions\\honeycombmenu\\app\\http\\controllers\\menu\\TypesController",
+        "actions": [
+          "interactivesolutions_honeycomb_menu_routes_menu_types_list",
+          "interactivesolutions_honeycomb_menu_routes_menu_types_create",
+          "interactivesolutions_honeycomb_menu_routes_menu_types_update",
+          "interactivesolutions_honeycomb_menu_routes_menu_types_delete",
+          "interactivesolutions_honeycomb_menu_routes_menu_types_force_delete"
+        ]
+      }
+    ],
+    "rolesActions": {
+      "project-admin": [
+        "interactivesolutions_honeycomb_menu_routes_menu_types_list",
+        "interactivesolutions_honeycomb_menu_routes_menu_types_create",
+        "interactivesolutions_honeycomb_menu_routes_menu_types_update",
+        "interactivesolutions_honeycomb_menu_routes_menu_types_delete",
+        "interactivesolutions_honeycomb_menu_routes_menu_list",
+        "interactivesolutions_honeycomb_menu_routes_menu_create",
+        "interactivesolutions_honeycomb_menu_routes_menu_update",
+        "interactivesolutions_honeycomb_menu_routes_menu_delete",
+        "interactivesolutions_honeycomb_menu_routes_menu_groups_list",
+        "interactivesolutions_honeycomb_menu_routes_menu_groups_create",
+        "interactivesolutions_honeycomb_menu_routes_menu_groups_update",
+        "interactivesolutions_honeycomb_menu_routes_menu_groups_delete"
+      ]
+    }
+  }
 }

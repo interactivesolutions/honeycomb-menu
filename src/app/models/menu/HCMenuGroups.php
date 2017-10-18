@@ -2,7 +2,7 @@
 
 namespace interactivesolutions\honeycombmenu\app\models\menu;
 
-use interactivesolutions\honeycombcore\models\HCUuidModel;
+use InteractiveSolutions\HoneycombCore\Models\HCUuidModel;
 use interactivesolutions\honeycomblanguages\app\models\HCLanguages;
 use interactivesolutions\honeycombmenu\app\models\HCMenu;
 

@@ -1,6 +1,7 @@
 <?php namespace interactivesolutions\honeycombmenu\app\validators;
 
-use interactivesolutions\honeycombcore\http\controllers\HCCoreFormValidator;
+
+use InteractiveSolutions\HoneycombCore\Http\Controllers\HCCoreFormValidator;
 
 class MenuValidator extends HCCoreFormValidator
 {
@@ -12,10 +13,10 @@ class MenuValidator extends HCCoreFormValidator
     protected function rules()
     {
         return [
-            'language'  => 'required|exists:hc_languages,iso_639_1',
-            'parent'    => 'exists:hc_menu,id',
+            'language' => 'required|exists:hc_languages,iso_639_1',
+            'parent' => 'exists:hc_menu,id',
             'menu_type' => 'required|exists:hc_menu_types,id',
-            'type'      => 'required',
+            'type' => 'required',
 //            'dropdown'  => 'required',
 //            'icon'      => 'required',
 //            'url'       => 'required_if:type,link|active_url',

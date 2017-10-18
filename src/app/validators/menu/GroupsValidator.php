@@ -1,6 +1,7 @@
 <?php namespace interactivesolutions\honeycombmenu\app\validators\menu;
 
-use interactivesolutions\honeycombcore\http\controllers\HCCoreFormValidator;
+
+use InteractiveSolutions\HoneycombCore\Http\Controllers\HCCoreFormValidator;
 
 class GroupsValidator extends HCCoreFormValidator
 {
@@ -12,7 +13,7 @@ class GroupsValidator extends HCCoreFormValidator
     protected function rules()
     {
         return [
-            'name'     => 'required',
+            'name' => 'required',
             'language' => 'required|exists:hc_languages,iso_639_1',
         ];
     }

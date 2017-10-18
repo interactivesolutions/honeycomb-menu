@@ -3,7 +3,7 @@
 namespace interactivesolutions\honeycombmenu\app\providers;
 
 use Illuminate\Routing\Router;
-use interactivesolutions\honeycombcore\providers\HCBaseServiceProvider;
+use InteractiveSolutions\HoneycombCore\Providers\HCBaseServiceProvider;
 use interactivesolutions\honeycombmenu\app\http\middleware\HCMenu;
 
 class HCMenuServiceProvider extends HCBaseServiceProvider
@@ -18,7 +18,7 @@ class HCMenuServiceProvider extends HCBaseServiceProvider
 
     public function registerMiddleWare(Router $router)
     {
-        $router->pushMiddleWareToGroup ('web', HCMenu::class);
+        $router->pushMiddleWareToGroup('web', HCMenu::class);
     }
 }
 

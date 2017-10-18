@@ -1,4 +1,5 @@
 <?php
+
 namespace interactivesolutions\honeycombmenu\database\seeds;
 
 use Illuminate\Database\Seeder;

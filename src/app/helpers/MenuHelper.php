@@ -88,14 +88,14 @@ class MenuHelper
      */
     public function getMenu($menuTypeId, $language = null)
     {
-        if( is_null($language) ) {
+        if (is_null($language)) {
             $language = app()->getLocale();
         }
 
-        if( $this->cacheEnabled ) {
+        if ($this->cacheEnabled) {
             $cacheName = self::getCacheName($menuTypeId, $language);
 
-            if( Cache::has($cacheName) ) {
+            if (Cache::has($cacheName)) {
                 return Cache::get($cacheName);
             }
         }
@@ -116,25 +116,27 @@ class MenuHelper
         $this->menuClass::$customAppends = ['item_url', 'item_label'];
         $this->pagesClass::$customAppends = ['page_url'];
 
-        $items = $this->menuClass::with(['children' => function ($query) use ($menuTypeId, $language) {
-            $query->with('children')
-                ->where('menu_type_id', $menuTypeId)
-                ->where('language_code', $language);
-        }])
+        $items = $this->menuClass::with([
+            'children' => function($query) use ($menuTypeId, $language) {
+                $query->with('children')
+                    ->where('menu_type_id', $menuTypeId)
+                    ->where('language_code', $language);
+            },
+        ])
             ->where('menu_type_id', $menuTypeId)
             ->where('language_code', $language)
             ->whereNull('parent_id')
             ->get();
 
-        if( $items->isEmpty() ) {
+        if ($items->isEmpty()) {
             return [];
         }
 
-        $menu = $this->formatMenuItems($items)->filter(function ($item, $key) {
+        $menu = $this->formatMenuItems($items)->filter(function($item, $key) {
             return ($item['item_url'] != "" && $item['item_label'] != "");
         })->values()->toArray();
 
-        if( $this->cacheEnabled ) {
+        if ($this->cacheEnabled) {
             Cache::put(self::getCacheName($menuTypeId, $language), $menu, $this->cacheTime);
         }
 
@@ -149,10 +151,10 @@ class MenuHelper
      */
     protected function formatMenuItems(&$items)
     {
-        foreach ( $items as $key => $item ) {
+        foreach ($items as $key => $item) {
             $itemData = array_only($item->toArray(), $this->selectFields);
 
-            if( ! $item->children->isEmpty() ) {
+            if (!$item->children->isEmpty()) {
                 $itemData['children'] = $this->sortByField(
                     $this->formatMenuItems($item->children)
                 );
@@ -184,27 +186,30 @@ class MenuHelper
      */
     public function getMenuByGroup($language = null)
     {
-        if( is_null($language) )
+        if (is_null($language)) {
             $language = app()->getLocale();
+        }
 
         $this->menuClass::$customAppends = ['item_url', 'item_label'];
         $this->pagesClass::$customAppends = ['page_url'];
 
         $items = $this->menuGroupsClass::select('id', 'name', 'sequence')
-            ->with(['menu' => function ($query) use ($language) {
-                $query->with([
-                    'children',
-                    'page' => function ($query) {
-                        $query->with('translations');
-                    },
-                ])->where('language_code', $language)
-                    ->orderBy('sequence');
-            }])
+            ->with([
+                'menu' => function($query) use ($language) {
+                    $query->with([
+                        'children',
+                        'page' => function($query) {
+                            $query->with('translations');
+                        },
+                    ])->where('language_code', $language)
+                        ->orderBy('sequence');
+                },
+            ])
             ->where('language_code', $language)
             ->orderBy('sequence', 'ASC')
             ->get();
 
-        foreach ( $items as $key => $item ) {
+        foreach ($items as $key => $item) {
             $items[$key]['menu'] = $this->formatMenuItems($item->menu);
         }
 

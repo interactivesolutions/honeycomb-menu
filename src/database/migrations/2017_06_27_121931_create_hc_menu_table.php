@@ -12,7 +12,7 @@ class CreateHcMenuTable extends Migration
      */
     public function up()
     {
-        Schema::create('hc_menu', function (Blueprint $table) {
+        Schema::create('hc_menu', function(Blueprint $table) {
             $table->integer('count', true);
             $table->string('id', 36)->unique('id_UNIQUE');
             $table->timestamps();
@@ -31,7 +31,7 @@ class CreateHcMenuTable extends Migration
             $table->integer('sequence')->nullable();
         });
 
-        Schema::table('hc_menu', function (Blueprint $table) {
+        Schema::table('hc_menu', function(Blueprint $table) {
             $table->foreign('language_code')->references('iso_639_1')->on('hc_languages')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign('parent_id')->references('id')->on('hc_menu')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign('menu_type_id')->references('id')->on('hc_menu_types')->onUpdate('NO ACTION')->onDelete('NO ACTION');
@@ -45,7 +45,7 @@ class CreateHcMenuTable extends Migration
      */
     public function down()
     {
-        Schema::table('hc_menu', function (Blueprint $table) {
+        Schema::table('hc_menu', function(Blueprint $table) {
             $table->dropForeign(['language_code']);
             $table->dropForeign(['parent_id']);
             $table->dropForeign(['menu_type_id']);

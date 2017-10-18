@@ -23,85 +23,85 @@ class MenuForm
     {
         $form = [
             'storageURL' => route('admin.api.routes.menu'),
-            'buttons'    => [
+            'buttons' => [
                 [
                     "class" => "col-centered",
                     "label" => trans('HCTranslations::core.buttons.submit'),
-                    "type"  => "submit",
+                    "type" => "submit",
                 ],
             ],
-            'structure'  => [
+            'structure' => [
                 [
-                    'type'            => 'dropDownList',
-                    'fieldID'         => 'language',
-                    'label'           => trans('HCTranslations::core.language'),
-                    'editType'        => 0,
-                    'required'        => 1,
+                    'type' => 'dropDownList',
+                    'fieldID' => 'language',
+                    'label' => trans('HCTranslations::core.language'),
+                    'editType' => 0,
+                    'required' => 1,
                     'requiredVisible' => 1,
-                    'options'         => getHCLanguagesOptions('front_end', ['language']),
-                    "search"          => [
-                        "minimumInputLength"     => 0,
+                    'options' => getHCLanguagesOptions('front_end', ['language']),
+                    "search" => [
+                        "minimumInputLength" => 0,
                         "maximumSelectionLength" => 1,
                     ],
-                    "value"           => session('back-end', app()->getLocale()),
+                    "value" => session('back-end', app()->getLocale()),
                 ],
                 [
-                    "type"            => "singleLine",
-                    "fieldID"         => "icon",
-                    "label"           => trans("HCMenu::menu.icon"),
-                    "required"        => 0,
+                    "type" => "singleLine",
+                    "fieldID" => "icon",
+                    "label" => trans("HCMenu::menu.icon"),
+                    "required" => 0,
                     "requiredVisible" => 0,
                 ],
                 [
-                    'type'            => 'dropDownList',
-                    'fieldID'         => 'menu_type',
-                    'label'           => trans('HCMenu::menu.menu_type_id'),
-                    'editType'        => 0,
-                    'required'        => 1,
+                    'type' => 'dropDownList',
+                    'fieldID' => 'menu_type',
+                    'label' => trans('HCMenu::menu.menu_type_id'),
+                    'editType' => 0,
+                    'required' => 1,
                     'requiredVisible' => 1,
-                    "options"         => $this->getMenuList(),
-                    "search"          => [
-                        "minimumInputLength"     => 0,
+                    "options" => $this->getMenuList(),
+                    "search" => [
+                        "minimumInputLength" => 0,
                         "maximumSelectionLength" => 1,
                     ],
                 ],
                 [
-                    'type'            => 'dropDownList',
-                    'fieldID'         => 'menu_groups',
-                    'label'           => trans('HCMenu::menu.menu_groups'),
-                    'editType'        => 0,
-                    'required'        => 0,
+                    'type' => 'dropDownList',
+                    'fieldID' => 'menu_groups',
+                    'label' => trans('HCMenu::menu.menu_groups'),
+                    'editType' => 0,
+                    'required' => 0,
                     'requiredVisible' => 0,
-                    "search"          => [
-                        "url"                    => route('admin.api.routes.menu.groups.options'),
-                        "minimumInputLength"     => 0,
+                    "search" => [
+                        "url" => route('admin.api.routes.menu.groups.options'),
+                        "minimumInputLength" => 0,
                         "maximumSelectionLength" => 10,
-                        "showNodes"              => [
+                        "showNodes" => [
                             'name',
                         ],
                     ],
-                    "dependencies"    => [
+                    "dependencies" => [
                         [
                             "field_id" => "language",
                         ],
                     ],
                 ],
                 [
-                    'type'            => 'dropDownList',
-                    'fieldID'         => 'parent',
-                    'label'           => trans('HCMenu::menu.parent_id'),
-                    'editType'        => 0,
-                    'required'        => 0,
+                    'type' => 'dropDownList',
+                    'fieldID' => 'parent',
+                    'label' => trans('HCMenu::menu.parent_id'),
+                    'editType' => 0,
+                    'required' => 0,
                     'requiredVisible' => 0,
-                    "search"          => [
-                        "url"                    => route('admin.api.routes.menu.options'),
-                        "minimumInputLength"     => 1,
+                    "search" => [
+                        "url" => route('admin.api.routes.menu.options'),
+                        "minimumInputLength" => 1,
                         "maximumSelectionLength" => 1,
-                        "showNodes"              => [
+                        "showNodes" => [
                             'item_label',
                         ],
                     ],
-                    "dependencies"    => [
+                    "dependencies" => [
                         [
                             "field_id" => "language",
                         ],
@@ -111,26 +111,26 @@ class MenuForm
                     ],
                 ],
                 [
-                    'type'            => 'radioList',
-                    'fieldID'         => 'type',
-                    'label'           => trans('HCMenu::menu.type'),
-                    'editType'        => 0,
-                    'required'        => 1,
+                    'type' => 'radioList',
+                    'fieldID' => 'type',
+                    'label' => trans('HCMenu::menu.type'),
+                    'editType' => 0,
+                    'required' => 1,
                     'requiredVisible' => 1,
-                    'options'         => HCMenu::getTableEnumList('type', 'label', 'HCMenu::menu.types.'),
-                    'dependencies'    => [
+                    'options' => HCMenu::getTableEnumList('type', 'label', 'HCMenu::menu.types.'),
+                    'dependencies' => [
                         [
                             'field_id' => 'language',
                         ],
                     ],
                 ],
                 [
-                    "type"            => "singleLine",
-                    "fieldID"         => "link_text",
-                    "label"           => trans("HCMenu::menu.link_text"),
-                    "required"        => 0,
+                    "type" => "singleLine",
+                    "fieldID" => "link_text",
+                    "label" => trans("HCMenu::menu.link_text"),
+                    "required" => 0,
                     "requiredVisible" => 0,
-                    "dependencies"    => [
+                    "dependencies" => [
                         [
                             'field_id' => "type",
                             'field_value' => 'link',
@@ -138,12 +138,12 @@ class MenuForm
                     ],
                 ],
                 [
-                    "type"            => "singleLine",
-                    "fieldID"         => "url",
-                    "label"           => trans("HCMenu::menu.url"),
-                    "required"        => 0,
+                    "type" => "singleLine",
+                    "fieldID" => "url",
+                    "label" => trans("HCMenu::menu.url"),
+                    "required" => 0,
                     "requiredVisible" => 0,
-                    "dependencies"    => [
+                    "dependencies" => [
                         [
                             'field_id' => "type",
                             'field_value' => 'link',
@@ -151,21 +151,21 @@ class MenuForm
                     ],
                 ],
                 [
-                    'type'            => 'dropDownList',
-                    'fieldID'         => 'page_translations',
-                    'label'           => trans('HCMenu::menu.page_id'),
-                    'editType'        => 0,
-                    'required'        => 0,
+                    'type' => 'dropDownList',
+                    'fieldID' => 'page_translations',
+                    'label' => trans('HCMenu::menu.page_id'),
+                    'editType' => 0,
+                    'required' => 0,
                     'requiredVisible' => 0,
-                    "search"          => [
-                        "minimumInputLength"     => 1,
+                    "search" => [
+                        "minimumInputLength" => 1,
                         "maximumSelectionLength" => 1,
-                        "url"                    => route('admin.api.pages.options'),
-                        "showNodes"              => [
+                        "url" => route('admin.api.pages.options'),
+                        "showNodes" => [
                             "title",
                         ],
                     ],
-                    "dependencies"    => [
+                    "dependencies" => [
                         [
                             "field_id" => "language",
                         ],
@@ -176,37 +176,39 @@ class MenuForm
                     ],
                 ],
                 [
-                    'type'            => 'radioList',
-                    'fieldID'         => 'link_type',
-                    'label'           => trans('HCMenu::menu.link_type'),
-                    "required"        => 1,
+                    'type' => 'radioList',
+                    'fieldID' => 'link_type',
+                    'label' => trans('HCMenu::menu.link_type'),
+                    "required" => 1,
                     "requiredVisible" => 1,
-                    "options"         => [
+                    "options" => [
                         [
-                            'id'    => '_blank',
+                            'id' => '_blank',
                             'label' => '_blank',
                         ],
                         [
-                            'id'    => '_self',
+                            'id' => '_self',
                             'label' => '_self',
                         ],
                     ],
                 ],
                 [
-                    "type"            => "singleLine",
-                    "fieldID"         => "sequence",
-                    "label"           => trans("HCMenu::menu.sequence"),
-                    "required"        => 0,
+                    "type" => "singleLine",
+                    "fieldID" => "sequence",
+                    "label" => trans("HCMenu::menu.sequence"),
+                    "required" => 0,
                     "requiredVisible" => 0,
                 ],
             ],
         ];
 
-        if( $this->multiLanguage )
+        if ($this->multiLanguage) {
             $form['availableLanguages'] = getHCContentLanguages();
+        }
 
-        if( ! $edit )
+        if (!$edit) {
             return $form;
+        }
 
         //Make changes to edit form if needed
         // $form['structure'][] = [];

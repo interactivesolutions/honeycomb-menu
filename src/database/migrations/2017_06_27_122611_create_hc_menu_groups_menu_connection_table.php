@@ -12,7 +12,7 @@ class CreateHcMenuGroupsMenuConnectionTable extends Migration
      */
     public function up()
     {
-        Schema::create('hc_menu_groups_menu_connection', function (Blueprint $table) {
+        Schema::create('hc_menu_groups_menu_connection', function(Blueprint $table) {
             $table->integer('count', true);
             $table->timestamps();
 
@@ -32,7 +32,7 @@ class CreateHcMenuGroupsMenuConnectionTable extends Migration
      */
     public function down()
     {
-        Schema::table('hc_menu_groups_menu_connection', function (Blueprint $table) {
+        Schema::table('hc_menu_groups_menu_connection', function(Blueprint $table) {
             $table->dropForeign(['menu_id']);
             $table->dropForeign(['menu_group_id']);
         });

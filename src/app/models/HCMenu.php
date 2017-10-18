@@ -2,8 +2,8 @@
 
 namespace interactivesolutions\honeycombmenu\app\models;
 
-use interactivesolutions\honeycombcore\models\HCUuidModel;
-use interactivesolutions\honeycombcore\models\traits\CustomAppends;
+use InteractiveSolutions\HoneycombCore\Models\HCUuidModel;
+use InteractiveSolutions\HoneycombCore\Models\Traits\CustomAppends;
 use interactivesolutions\honeycomblanguages\app\models\HCLanguages;
 use interactivesolutions\honeycombmenu\app\helpers\MenuHelper;
 use interactivesolutions\honeycombmenu\app\models\menu\HCMenuGroups;
@@ -33,7 +33,20 @@ class HCMenu extends HCUuidModel
      *
      * @var array
      */
-    protected $fillable = ['id', 'parent_id', 'menu_type_id', 'type', 'dropdown', 'icon', 'url', 'link_text', 'page_id', 'sequence', 'language_code', 'link_type'];
+    protected $fillable = [
+        'id',
+        'parent_id',
+        'menu_type_id',
+        'type',
+        'dropdown',
+        'icon',
+        'url',
+        'link_text',
+        'page_id',
+        'sequence',
+        'language_code',
+        'link_type',
+    ];
 
     /**
      * Get label attribute
@@ -42,12 +55,13 @@ class HCMenu extends HCUuidModel
      */
     public function getItemLabelAttribute()
     {
-        if( $this->type == 'link' ) {
+        if ($this->type == 'link') {
             return $this->link_text;
         }
 
-        if( $this->type == 'page' && ! is_null($this->page) )
+        if ($this->type == 'page' && !is_null($this->page)) {
             return get_translation_name('title', $this->language_code, $this->page->translations->toArray());
+        }
 
         return '';
     }
@@ -59,12 +73,13 @@ class HCMenu extends HCUuidModel
      */
     public function getItemUrlAttribute()
     {
-        if( $this->type == 'link' ) {
+        if ($this->type == 'link') {
             return $this->url;
         }
 
-        if( $this->type == 'page' && ! is_null($this->page) )
+        if ($this->type == 'page' && !is_null($this->page)) {
             return $this->page->page_url;
+        }
 
         return '';
     }
@@ -138,9 +153,11 @@ class HCMenu extends HCUuidModel
     public function children()
     {
         return $this->subChildren()
-            ->with(['children' => function ($query) {
-                $query->select(get_class($this)::getFillableFields());
-            }])
+            ->with([
+                'children' => function($query) {
+                    $query->select(get_class($this)::getFillableFields());
+                },
+            ])
             ->select(get_class($this)::getFillableFields());
     }
 
