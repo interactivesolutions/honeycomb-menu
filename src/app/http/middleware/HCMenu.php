@@ -21,8 +21,8 @@ class HCMenu
             $mh = new MenuHelper();
             $menu = [];
 
-            foreach ($menuList as $key => $menuID) {
-                $menu[$key] = $mh->getMenu($menuID, app()->getLocale());
+            foreach ($menuList as $menu) {
+                $menu[$menu] = $mh->getMenu($menu, app()->getLocale());
             }
 
             View::share("menu", $menu);
