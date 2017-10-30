@@ -14,10 +14,7 @@ class HCMenu
         $firstSegment = request()->segment(1);
         $menuLists = config('hc.menu');
 
-        $noLanguage = config('hc.noLanguage');
-        array_push($noLanguage, config('hc.admin_url'));
-
-        if (!in_array($firstSegment, $noLanguage) && !empty($menuLists)) {
+        if ($firstSegment !== config('hc.admin_url') && !empty($menuLists)) {
             $mh = new MenuHelper();
             $menu = [];
 
