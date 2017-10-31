@@ -14,7 +14,7 @@ class MenuValidator extends HCCoreFormValidator
     {
         return [
             'language' => 'required|exists:hc_languages,iso_639_1',
-            'parent' => 'exists:hc_menu,id',
+            'parent' => 'nullable|exists:hc_menu,id',
             'menu_type' => 'required|exists:hc_menu_types,id',
             'type' => 'required',
 //            'dropdown'  => 'required',
