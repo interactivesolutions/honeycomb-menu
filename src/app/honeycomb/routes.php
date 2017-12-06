@@ -1,6 +1,6 @@
 <?php
 
-//src/app/routes//admin/01_routes.menu.types.php
+//honeycomb-menu/src/app/routes/admin/01_routes.menu.types.php
 
 
 Route::group(['prefix' => config('hc.admin_url'), 'middleware' => ['web', 'auth']], function() {
@@ -87,7 +87,8 @@ Route::group(['prefix' => config('hc.admin_url'), 'middleware' => ['web', 'auth'
 });
 
 
-//src/app/routes//admin/02_routes.menu.groups.php
+
+//honeycomb-menu/src/app/routes/admin/02_routes.menu.groups.php
 
 
 Route::group(['prefix' => config('hc.admin_url'), 'middleware' => ['web', 'auth']], function() {
@@ -180,7 +181,8 @@ Route::group(['prefix' => config('hc.admin_url'), 'middleware' => ['web', 'auth'
 });
 
 
-//src/app/routes//admin/03_routes.menu.php
+
+//honeycomb-menu/src/app/routes/admin/03_routes.menu.php
 
 
 Route::group(['prefix' => config('hc.admin_url'), 'middleware' => ['web', 'auth']], function() {
@@ -272,7 +274,8 @@ Route::group(['prefix' => config('hc.admin_url'), 'middleware' => ['web', 'auth'
 });
 
 
-//src/app/routes//api/01_routes.menu.types.php
+
+//honeycomb-menu/src/app/routes/api/01_routes.menu.types.php
 
 
 Route::group(['prefix' => 'api', 'middleware' => ['auth-apps']], function() {
@@ -360,7 +363,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['auth-apps']], function() {
     });
 });
 
-//src/app/routes//api/02_routes.menu.groups.php
+
+//honeycomb-menu/src/app/routes/api/02_routes.menu.groups.php
 
 
 Route::group(['prefix' => 'api', 'middleware' => ['auth-apps']], function() {
@@ -448,7 +452,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['auth-apps']], function() {
     });
 });
 
-//src/app/routes//api/03_routes.menu.php
+
+//honeycomb-menu/src/app/routes/api/03_routes.menu.php
 
 
 Route::group(['prefix' => 'api', 'middleware' => ['auth-apps']], function() {
@@ -535,3 +540,4 @@ Route::group(['prefix' => 'api', 'middleware' => ['auth-apps']], function() {
         });
     });
 });
+
