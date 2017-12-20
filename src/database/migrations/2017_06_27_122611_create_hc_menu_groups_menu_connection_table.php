@@ -1,8 +1,14 @@
 <?php
 
+declare(strict_types = 1);
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
+/**
+ * Class CreateHcMenuGroupsMenuConnectionTable
+ */
 class CreateHcMenuGroupsMenuConnectionTable extends Migration
 {
     /**
@@ -10,9 +16,9 @@ class CreateHcMenuGroupsMenuConnectionTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('hc_menu_groups_menu_connection', function(Blueprint $table) {
+        Schema::create('hc_menu_groups_menu_connection', function (Blueprint $table) {
             $table->integer('count', true);
             $table->timestamps();
 
@@ -20,8 +26,16 @@ class CreateHcMenuGroupsMenuConnectionTable extends Migration
             $table->string('menu_group_id', 36);
             $table->integer('sequence')->nullable();
 
-            $table->foreign('menu_id')->references('id')->on('hc_menu')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign('menu_group_id')->references('id')->on('hc_menu_groups')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign('menu_id')
+                ->references('id')
+                ->on('hc_menu')
+                ->onUpdate('NO ACTION')
+                ->onDelete('NO ACTION');
+            $table->foreign('menu_group_id')
+                ->references('id')
+                ->on('hc_menu_groups')
+                ->onUpdate('NO ACTION')
+                ->onDelete('NO ACTION');
         });
     }
 
@@ -30,9 +44,9 @@ class CreateHcMenuGroupsMenuConnectionTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('hc_menu_groups_menu_connection', function(Blueprint $table) {
+        Schema::table('hc_menu_groups_menu_connection', function (Blueprint $table) {
             $table->dropForeign(['menu_id']);
             $table->dropForeign(['menu_group_id']);
         });

@@ -1,8 +1,14 @@
 <?php
 
+declare(strict_types = 1);
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
+/**
+ * Class CreateHcMenuGroupsTable
+ */
 class CreateHcMenuGroupsTable extends Migration
 {
     /**
@@ -10,11 +16,11 @@ class CreateHcMenuGroupsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('hc_menu_groups', function(Blueprint $table) {
+        Schema::create('hc_menu_groups', function (Blueprint $table) {
             $table->integer('count', true);
-            $table->string('id', 36)->unique('id_UNIQUE');
+            $table->string('id', 36)->unique();
             $table->timestamps();
             $table->softDeletes();
 
@@ -23,8 +29,12 @@ class CreateHcMenuGroupsTable extends Migration
             $table->integer('sequence')->nullable();
         });
 
-        Schema::table('hc_menu_groups', function(Blueprint $table) {
-            $table->foreign('language_code')->references('iso_639_1')->on('hc_languages')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+        Schema::table('hc_menu_groups', function (Blueprint $table) {
+            $table->foreign('language_code')
+                ->references('iso_639_1')
+                ->on('hc_languages')
+                ->onUpdate('NO ACTION')
+                ->onDelete('NO ACTION');
         });
     }
 
@@ -33,9 +43,9 @@ class CreateHcMenuGroupsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('hc_menu_groups', function(Blueprint $table) {
+        Schema::table('hc_menu_groups', function (Blueprint $table) {
             $table->dropForeign(['language_code']);
         });
 
